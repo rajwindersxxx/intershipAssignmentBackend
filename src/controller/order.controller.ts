@@ -6,7 +6,7 @@ import response from "../utils/response";
 import { appError } from "../utils/appError";
 
 export class orderController {
-  static createOrder = catchAsync(async (req, res, _next) => {
+  static placeOrder = catchAsync(async (req, res, _next) => {
     const input: { productId: number; quantity: number }[] = req.body.items;
     // first build a lookup hashmap from input
     const lookup = new Map();
@@ -47,14 +47,6 @@ export class orderController {
     });
     response(res, createOrderItems, 201, { otherFields: { totalAmount } });
   });
-  static getOrderItemsByProduct = catchAsync(async (req, res, _next) => {
-    const data = await prisma.orderItem.findMany({
-      where: {
-        productId: Number(req.params.id),
-      },
-    });
-    response(res, data);
-  });
   static getMyOrderedItems = catchAsync(async (req, res, _next) => {
     const data = await prisma.orderItem.findMany({
       where: {
@@ -63,7 +55,7 @@ export class orderController {
     });
     response(res, data);
   });
-  static getMyAllOrders = catchAsync(async (req, res, _next) => {
+  static getMyOrders = catchAsync(async (req, res, _next) => {
     const { filterOptions, offset, limit } = new APIFeatures<
       typeof prisma.order.findMany
     >(req.query as Record<string, string>)
@@ -74,7 +66,19 @@ export class orderController {
       ...filterOptions,
       where: {
         ...(filterOptions as unknown as { where: object }).where,
-        id: req.user.id,
+        userId: req.user.id,
+      },
+      include: {
+        items: {
+          include: {
+            product: {
+              select: {
+                name: true,
+                price: true,
+              },
+            },
+          },
+        },
       },
       skip: offset,
       take: limit,
@@ -100,5 +104,77 @@ export class orderController {
       },
     });
     response(res, null);
+  });
+  static getAllOrders = catchAsync(async (req, res, _next) => {
+    const { filterOptions, offset, limit } = new APIFeatures<
+      typeof prisma.order.findMany
+    >(req.query as Record<string, string>)
+      .filter()
+      .pagination()
+      .sort();
+    const data = await prisma.order.findMany({
+      ...filterOptions,
+      skip: offset,
+      take: limit,
+    });
+    const { filterOptions: filterOnly } = new APIFeatures<
+      typeof prisma.order.findMany
+    >(req.query as Record<string, string>).filter();
+
+    const total = await prisma.order.count({ ...filterOnly });
+    response(res, data, 200, { otherFields: { offset, limit, total } });
+  });
+  static getOrderItems = catchAsync(async (req, res, _next) => {
+    const { filterOptions, offset, limit } = new APIFeatures<
+      typeof prisma.order.findMany
+    >(req.query as Record<string, string>)
+      .filter()
+      .pagination()
+      .sort()
+      .limitFields();
+    const data = await prisma.orderItem.findMany({
+      ...filterOptions,
+      include: {
+        product: {
+          select: {
+            name: true,
+            id: true,
+            imageUrl: true,
+          },
+        },
+      },
+      skip: offset,
+      take: limit,
+    });
+    const { filterOptions: OnlyFilter } = new APIFeatures<
+      typeof prisma.order.findMany
+    >(req.query as Record<string, string>).filter();
+    const total = await prisma.orderItem.count({
+      ...OnlyFilter,
+    });
+    response(res, data, 200, { otherFields: { offset, limit, total } });
+  });
+  static checkoutOrder = catchAsync(async (req, res, _next) => {
+    const data = await prisma.order.update({
+      where: {
+        id: Number(req.params.id),
+        userId: req.user.id,
+      },
+      data: {
+        status: "PAID",
+      },
+    });
+    response(res, data);
+  });
+  static dispatchOrder = catchAsync(async (req, res, _next) => {
+    const data = await prisma.order.update({
+      where: {
+        id: Number(req.params.id),
+      },
+      data: {
+        status: "DISPATCHED",
+      },
+    });
+    response(res, data);
   });
 }

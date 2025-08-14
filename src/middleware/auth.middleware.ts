@@ -63,7 +63,7 @@ export class authMiddleware {
     req.user = { id: currentUser?.id, role: currentUser?.role };
     next();
   });
-  static restrictRote = (...roles: string[]) =>
+  static restrictRoute = (...roles: string[]) =>
     catchAsync(async (req, res, next) => {
       if (req.user.role && !roles.includes(req.user.role)) {
         return next(

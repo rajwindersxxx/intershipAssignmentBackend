@@ -5,8 +5,9 @@ import response from "../utils/response";
 
 export class productController {
   static createProduct = catchAsync(async (req, res, _next) => {
+    const input = { ...req.body, userId: req.user.id };
     const data = await prisma.product.create({
-      data: req.body,
+      data: input,
     });
     response(res, data, 201);
   });
@@ -14,6 +15,7 @@ export class productController {
     const data = await prisma.product.update({
       where: {
         id: Number(req.params.id),
+        userId: req.user.id,
       },
       data: req.body,
     });
@@ -23,6 +25,7 @@ export class productController {
     await prisma.product.update({
       where: {
         id: Number(req.params.id),
+        userId: req.user.id,
       },
       data: {
         active: false,

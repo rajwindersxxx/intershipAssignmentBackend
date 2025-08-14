@@ -7,10 +7,11 @@ import { params } from "../zod/genetic.zod";
 const productRouter = express();
 
 productRouter.get("/", productController.getAllProducts);
+productRouter.get("/:id", productController.getProductDetails)
 
 productRouter.use(
   authMiddleware.protectedRoute,
-  authMiddleware.restrictRote("ADMIN")
+  authMiddleware.restrictRoute("ADMIN")
 );
 
 productRouter
