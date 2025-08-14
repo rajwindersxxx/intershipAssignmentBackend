@@ -1,0 +1,10 @@
+node_modules
+dist
+generated
+.env
+.vscode
+.vercel
+api
+uploads/*
+
+!uploads/.gitkeep
