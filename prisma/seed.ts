@@ -1,27 +1,156 @@
+import { Order, Product, User } from "../generated/prisma";
 import { prisma } from "../src/utils/prismaClient";
 import { faker } from "@faker-js/faker";
 
 // * run main script
 async function main() {
   console.log("clear all data ");
+  await prisma.orderItem.deleteMany();
+  await prisma.order.deleteMany();
+  await prisma.order.deleteMany();
   await prisma.user.deleteMany();
   console.log("seeding users...");
-  const password = "$2b$12$f/QzbJBcUIoHRpGn1ucMW.ns624iuYHlBVxLplDj/gCxqGRAgsWZC";
-  const users: { email: string; password: string }[] = [
-    { email: "test@gmail.com", password },
-  ];
-  for (let i = 0; i <= 10; i++) {
-    const user = {
-      email: faker.internet.email(),
-      password,
+  const users = await prisma.user.createManyAndReturn({
+    data: getUsers(),
+  });
+  console.log("seeding products..... ");
+  const products = await prisma.product.createManyAndReturn({
+    data: getProducts(users),
+  });
+  console.log("seeding orders.... ");
+  const orders = await prisma.order.createManyAndReturn({
+    data: getUsersOrder(users, products),
+  });
+  console.log("seeding orders items...");
+   await prisma.orderItem.createManyAndReturn({
+    data: getOrderedItems(orders, products),
+  });
+  console.log("NOTE: totalAmount and totalItems might be incorrect ")
+}
+function getOrderedItems(orders: Order[], products: Product[]) {
+  const productData = products.map((item) => ({
+    id: item.id,
+    price: item.price,
+  }));
+
+  const orderIds = orders.map((item) => item.id);
+  const orderItems: {
+    orderId: number;
+    productId: number;
+    quantity: number;
+    price: number;
+  }[] = [];
+
+  for (let i = 0; i < 20; i++) {
+    const orderId = orderIds[Math.floor(Math.random() * orderIds.length)];
+    const product = productData[Math.floor(Math.random() * productData.length)];
+    const quantity = Math.floor(Math.random() * 5) + 1; // 1–5 quantity
+    const price = Number((product.price * quantity).toFixed(2));
+
+    orderItems.push({
+      orderId,
+      productId: product.id,
+      quantity,
+      price,
+    });
+  }
+
+  return orderItems;
+}
+function getUsersOrder(users: User[], products: Product[]) {
+  const userIds = users
+    .filter((item) => item.role === "USER")
+    .map((item) => item.id);
+
+  const productIds = products.map((item) => ({
+    id: item.id,
+    price: item.price,
+  }));
+
+  const orders: { userId: number; totalAmount: number; totalItems: number }[] =
+    [];
+
+  for (let i = 0; i < 20; i++) {
+    const itemCount = Math.floor(Math.random() * 5) + 1; // 1–5 items per order
+    let totalAmount = 0;
+    let totalItems = 0;
+
+    for (let j = 0; j < itemCount; j++) {
+      const product = productIds[Math.floor(Math.random() * productIds.length)];
+      const quantity = Math.floor(Math.random() * 5) + 1; // 1–5 quantity
+
+      totalAmount += product.price * quantity;
+      totalItems += quantity;
+    }
+
+    const order = {
+      userId: userIds[Math.floor(Math.random() * userIds.length)],
+      totalAmount: Number(totalAmount.toFixed(2)),
+      totalItems,
     };
+
+    orders.push(order);
+  }
+
+  return orders;
+}
+function getProducts(users: User[]) {
+  const userIds = users
+    .filter((item) => item.role === "ADMIN")
+    .map((item) => item.id);
+  const products: {
+    name: string;
+    description: string;
+    price: number;
+    category: string;
+    imageUrl: string;
+    inventoryCount: number;
+    userId: number;
+  }[] = [];
+  for (let i = 0; i <= 20; i++) {
+    const product = {
+      name: faker.commerce.productName(),
+      description: faker.commerce.productDescription(),
+      price: parseFloat(faker.commerce.price({ min: 5, max: 500, dec: 2 })),
+      category: faker.commerce.department(),
+      imageUrl: faker.image.urlLoremFlickr({ category: "product" }),
+      inventoryCount: faker.number.int({ min: 0, max: 200 }),
+      userId: userIds[Math.floor(Math.random() * userIds.length)],
+    };
+    products.push(product);
+  }
+  return products;
+}
+function getUsers() {
+  const password =
+    "$2b$12$f/QzbJBcUIoHRpGn1ucMW.ns624iuYHlBVxLplDj/gCxqGRAgsWZC";
+  const users: {
+    email: string;
+    password: string;
+    name: string;
+    role?: "ADMIN" | "USER";
+  }[] = [{ email: "test@gmail.com", password, name: "admin", role: "ADMIN" }];
+  const index = 10;
+  for (let i = 0; i <= index; i++) {
+    let user;
+    if (index < 2)
+      user = {
+        email: faker.internet.email(),
+        name: faker.person.fullName(),
+        password,
+        role: "ADMIN",
+      };
+    else {
+      user = {
+        email: faker.internet.email(),
+        name: faker.person.fullName(),
+        password,
+      };
+    }
     users.push(user);
   }
-  console.log("seeding jobs..... ");
-
-
+  return users;
 }
-
 main()
   .catch((e) => {
     console.error("❌ Seed failed:", e);

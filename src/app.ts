@@ -10,6 +10,7 @@ import cookieParser from "cookie-parser";
 import authRouter from "./routes/auth.routes";
 import { appError } from "./utils/appError";
 import productRouter from "./routes/product.routes";
+import orderRoute from "./routes/order.routes";
 dotenv.config({ path: "./.env" });
 const app = express();
 app.use(
@@ -29,6 +30,7 @@ app.use(cookieParser());
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/product", productRouter);
+app.use("/api/v1/order", orderRoute);
 
 app.all(/(.*)/, (req, res, next) => {
   next(
