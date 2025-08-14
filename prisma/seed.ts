@@ -3,30 +3,60 @@ import { prisma } from "../src/utils/prismaClient";
 import { faker } from "@faker-js/faker";
 
 // * run main script
-async function main() {
-  console.log("clear all data ");
-  await prisma.orderItem.deleteMany();
-  await prisma.order.deleteMany();
-  await prisma.order.deleteMany();
-  await prisma.user.deleteMany();
-  console.log("seeding users...");
-  const users = await prisma.user.createManyAndReturn({
-    data: getUsers(),
-  });
-  console.log("seeding products..... ");
-  const products = await prisma.product.createManyAndReturn({
-    data: getProducts(users),
-  });
-  console.log("seeding orders.... ");
-  const orders = await prisma.order.createManyAndReturn({
-    data: getUsersOrder(users, products),
-  });
-  console.log("seeding orders items...");
-   await prisma.orderItem.createManyAndReturn({
-    data: getOrderedItems(orders, products),
-  });
-  console.log("NOTE: totalAmount and totalItems might be incorrect ")
+export class seedData {
+  static async seedFakeData() {
+    console.log("seeding users...");
+    const users = await prisma.user.createManyAndReturn({
+      data: getUsers(),
+    });
+    console.log("seeding products..... ");
+    const products = await prisma.product.createManyAndReturn({
+      data: getProducts(users),
+    });
+    console.log("seeding orders.... ");
+    const orders = await prisma.order.createManyAndReturn({
+      data: getUsersOrder(users, products),
+    });
+    console.log("seeding orders items...");
+    await prisma.orderItem.createManyAndReturn({
+      data: getOrderedItems(orders, products),
+    });
+    console.log("NOTE: totalAmount and totalItems might be incorrect ");
+  }
+  static async clearData() {
+    console.log("clear all data ");
+    await prisma.orderItem.deleteMany();
+    await prisma.order.deleteMany();
+    await prisma.order.deleteMany();
+    await prisma.user.deleteMany();
+  }
+  static async createAdmin() {
+    console.log("seeding admin only");
+    await prisma.user.createMany({
+      data: [
+        {
+          email: "admin@gmail.com",
+          password:
+            "$2b$12$f/QzbJBcUIoHRpGn1ucMW.ns624iuYHlBVxLplDj/gCxqGRAgsWZC",
+          name: "admin",
+        },
+      ],
+      skipDuplicates: true,
+    });
+  }
 }
+const args = process.argv.slice(2);
+async function main() {
+  if (args.includes("--clear")) {
+    return seedData.clearData();
+  }
+  if (args.includes("--admin")) {
+    return seedData.createAdmin();
+  }
+  return seedData.seedFakeData();
+}
+
+// Helper function to create seed data
 function getOrderedItems(orders: Order[], products: Product[]) {
   const productData = products.map((item) => ({
     id: item.id,
@@ -151,6 +181,7 @@ function getUsers() {
   }
   return users;
 }
+// main seed runner
 main()
   .catch((e) => {
     console.error("❌ Seed failed:", e);

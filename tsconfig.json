@@ -1,19 +1,16 @@
 {
   "compilerOptions": {
+    "useUnknownInCatchVariables": false,
     "target": "es2022",
     "module": "commonjs",
     "outDir": "./dist",
     "sourceMap": true,
     "rootDir": "./src",
-    "strict": false,
+    "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "typeRoots": [
-      "./node_modules/@types",
-      "src/core/types",
-      "tests/testModules"
-    ]
+    "typeRoots": ["./node_modules/@types", "src/core/types", "tests/testModules"],
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules", "dist", "tests"]

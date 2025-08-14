@@ -92,9 +92,11 @@ export class orderController {
         userId: req.user.id,
       },
     });
-    const hoursSinceCreation = differenceInHours(new Date(), order.createdAt);
-    if (hoursSinceCreation > 24)
-      return new appError("Order cannot be deleted after 24 hours ", 400);
+    if (order) {
+      const hoursSinceCreation = differenceInHours(new Date(), order.createdAt);
+      if (hoursSinceCreation > 24)
+        return new appError("Order cannot be deleted after 24 hours ", 400);
+    }
     await prisma.order.update({
       where: {
         id: Number(req.params.id),
