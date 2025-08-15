@@ -24,11 +24,16 @@ export class seedData {
     console.log("NOTE: totalAmount and totalItems might be incorrect ");
   }
   static async clearData() {
-    console.log("clear all data ");
-    await prisma.orderItem.deleteMany();
-    await prisma.order.deleteMany();
-    await prisma.product.deleteMany();
-    await prisma.user.deleteMany();
+    console.log("clearing  all data .... ");
+    try {
+      await prisma.orderItem.deleteMany();
+      await prisma.order.deleteMany();
+      await prisma.product.deleteMany();
+      await prisma.user.deleteMany()
+       console.log("all data cleared ")
+    } catch (error) {
+        console.log(error)
+    }
   }
   static async createAdmin() {
     console.log("seeding admin only");
@@ -53,7 +58,7 @@ async function main() {
   if (args.includes("--admin")) {
     return seedData.createAdmin();
   }
-  seedData.clearData();
+  await seedData.clearData();
   return seedData.seedFakeData();
 }
 
