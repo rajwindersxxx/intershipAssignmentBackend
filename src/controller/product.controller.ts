@@ -26,6 +26,7 @@ export class productController {
       where: {
         id: Number(req.params.id),
         userId: req.user.id,
+        active: true,
       },
       data: {
         active: false,

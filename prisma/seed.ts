@@ -27,7 +27,7 @@ export class seedData {
     console.log("clear all data ");
     await prisma.orderItem.deleteMany();
     await prisma.order.deleteMany();
-    await prisma.order.deleteMany();
+    await prisma.product.deleteMany();
     await prisma.user.deleteMany();
   }
   static async createAdmin() {
@@ -162,7 +162,12 @@ function getUsers() {
   }[] = [{ email: "test@gmail.com", password, name: "admin", role: "ADMIN" }];
   const index = 10;
   for (let i = 0; i <= index; i++) {
-    let user;
+    let user: {
+      email: string;
+      password: string;
+      name: string;
+      role?: "ADMIN" | "USER";
+    };
     if (index < 2)
       user = {
         email: faker.internet.email(),

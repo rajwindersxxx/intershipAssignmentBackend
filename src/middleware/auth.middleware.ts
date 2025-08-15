@@ -46,16 +46,21 @@ export class authMiddleware {
     const currentUser = await prisma.user.findUnique({
       where: { id: decoded.id },
     });
+
     if (currentUser?.updatedAt && decoded?.iat) {
-      const passwordChange = new Date(currentUser.updatedAt).getTime() / 1000;
+      // fix rounded issues
+      const passwordChange = Math.floor(
+        new Date(currentUser.updatedAt).getTime() / 1000
+      );
       const issueDate = decoded.iat;
       if (passwordChange > issueDate) {
         clearCookie(res, "jwtToken");
         return next(
-          new appError("Password has been changed, please login again ", 401)
+          new appError("Password has been changed, please login again", 401, "INVALID_TOKEN")
         );
       }
     }
+
     if (!currentUser)
       return next(new appError("user not found", 401, "NOT_FOUND"));
     // this will use all identify loggedIn in user
@@ -69,7 +74,8 @@ export class authMiddleware {
         return next(
           new appError(
             "You do not have permission to perform this action.",
-            403
+            403,
+            "ACCESS_DENIED"
           )
         );
       }

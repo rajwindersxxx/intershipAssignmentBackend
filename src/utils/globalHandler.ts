@@ -10,7 +10,6 @@ export function globalHandler(
   res: Response,
   _next: NextFunction
 ) {
-  console.log(error)
   if (req.filePath) {
     const fullPath = path.resolve(
       process.cwd(),

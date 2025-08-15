@@ -9,31 +9,53 @@ const orderRoute = express();
 orderRoute.use(authMiddleware.protectedRoute);
 
 // ADMIN routes
-orderRoute.use(authMiddleware.restrictRoute("ADMIN"));
 orderRoute.post(
-  "/:id/dispatch",
+  "/dispatch/:id",
+  authMiddleware.restrictRoute("ADMIN"),
   validationMiddleware(params),
   orderController.dispatchOrder
 );
-orderRoute.get("/", orderController.getAllOrders);
-orderRoute.get("/item", orderController.getOrderItems);
+orderRoute.get(
+  "/",
+  authMiddleware.restrictRoute("ADMIN"),
+  orderController.getAllOrders
+);
+orderRoute.get(
+  "/item",
+  authMiddleware.restrictRoute("ADMIN"),
+  orderController.getOrderItems
+);
 
 // USER routes
-orderRoute.use(authMiddleware.restrictRoute("USER"));
 orderRoute.post(
   "/",
+  authMiddleware.restrictRoute("USER"),
   validationMiddleware(createOrder),
   orderController.placeOrder
 );
-orderRoute.get("/me", orderController.getMyOrders);
-orderRoute.delete(
-  "/:id",
-  validationMiddleware(params),
-  orderController.deleteOrder
+orderRoute.get(
+  "/me",
+  authMiddleware.restrictRoute("USER"),
+  orderController.getMyOrders
 );
+
+orderRoute
+  .route("/:id")
+  .delete(
+    authMiddleware.restrictRoute("USER"),
+    validationMiddleware(params),
+    orderController.deleteOrder
+  )
+  .get(
+    authMiddleware.restrictRoute("USER"),
+    validationMiddleware(params),
+    orderController.getMyOrderedItems
+  );
 orderRoute.post(
-  "/:id/checkout",
+  "/checkout/:id",
+  authMiddleware.restrictRoute("USER"),
   validationMiddleware(params),
   orderController.checkoutOrder
 );
+
 export default orderRoute;

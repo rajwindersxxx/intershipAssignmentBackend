@@ -37,11 +37,11 @@ export const changePasswordSchema = {
   bodySchema: z
     .object({
       currentPassword: password,
-      newPassword: password,
+      password: password,
       confirmPassword: password,
     })
     .strict()
-    .refine((data) => data.newPassword === data.confirmPassword, {
+    .refine((data) => data.password === data.confirmPassword, {
       message: "Passwords do not match",
       path: ["confirmPassword"],
     }),

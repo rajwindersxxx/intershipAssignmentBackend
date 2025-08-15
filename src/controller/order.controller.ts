@@ -42,15 +42,18 @@ export class orderController {
       orderId: order.id,
     }));
     // finally create a order
-    const createOrderItems = await prisma.orderItem.createMany({
+    await prisma.orderItem.createMany({
       data: createOrder,
     });
-    response(res, createOrderItems, 201, { otherFields: { totalAmount } });
+    response(res, { totalAmount, totalItems, orderId: order.id }, 201);
   });
   static getMyOrderedItems = catchAsync(async (req, res, _next) => {
     const data = await prisma.orderItem.findMany({
       where: {
         orderId: Number(req.params.id),
+        order: {
+          userId: req.user.id,
+        },
       },
     });
     response(res, data);
@@ -85,17 +88,21 @@ export class orderController {
     });
     response(res, data);
   });
-  static deleteOrder = catchAsync(async (req, res, _next) => {
+  static deleteOrder = catchAsync(async (req, res, next) => {
     const order = await prisma.order.findUnique({
       where: {
         id: Number(req.params.id),
         userId: req.user.id,
+        active: true,
       },
     });
+    if (!order) return next(new appError("Order not found ", 404, "NOT_FOUND"));
     if (order) {
       const hoursSinceCreation = differenceInHours(new Date(), order.createdAt);
       if (hoursSinceCreation > 24)
-        return new appError("Order cannot be deleted after 24 hours ", 400);
+        return next(
+          new appError("Order cannot be deleted after 24 hours ", 400, "FORBIDDEN")
+        );
     }
     await prisma.order.update({
       where: {

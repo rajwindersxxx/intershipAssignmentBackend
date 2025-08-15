@@ -15,10 +15,10 @@ export class authController {
       });
     } catch (error) {
       if (error.code === "P2002")
-        return next(new appError("Email already exist", 409));
+        return next(new appError("Email already exist", 409, "DUPLICATE_ERROR"));
       throw error;
     }
-    response(res, data, 200, {
+    response(res, data, 201, {
       hideFields: ["updatedAt", "password"],
       otherFields: { message: "Account Created Successfully" },
     });
@@ -41,7 +41,7 @@ export class authController {
     if (!userData)
       return next(new appError("User does not exists", 404, "NOT_FOUND"));
     const verify = await bcrypt.compare(password, userData?.password);
-    if (!verify) return next(new appError("Invalid username or password", 401));
+    if (!verify) return next(new appError("Invalid username or password", 401, 'INVALID_CREDENTIALS'));
     if (process.env.ACCESS_SECRET) {
       const accessToken = jwt.sign(
         { id: userData.id },
@@ -51,7 +51,7 @@ export class authController {
         }
       );
       responseCookie(res, "jwtToken", accessToken);
-      return response(res, { message: "Logged in successfully" }, 200);
+      return response(res, { message: "Logged in successfully", role: userData.role }, 200);
     }
   });
   static logoutUser = catchAsync(async (req, res, next) => {

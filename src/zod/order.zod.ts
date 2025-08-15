@@ -7,6 +7,6 @@ export const createOrder = {
         productId: z.number().int().positive(),
         quantity: z.number().int().positive(),
       })
-    ),
+    ).min(1),
   }),
 };
