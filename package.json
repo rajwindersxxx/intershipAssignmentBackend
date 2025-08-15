@@ -13,7 +13,7 @@
   "scripts": {
     "dev": "concurrently \"tsc --watch\" \" NODE_ENV=development nodemon dist/server.js\"",
     "build": "tsc",
-    "serve": "NODE_ENV=production PORT=3000 node dist/server.js",
+    "start": "NODE_ENV=production node dist/server.js",
     "lint": "eslint './src/**/*.{js,ts}'",
     "lint:fix": "eslint --fix './src/**/*.{js,ts}'",
     "seed": "ts-node prisma/seed.ts",

@@ -1,35 +1,40 @@
-name: Deploy to server
-# not work yet 
+name: Deploy to Railway
+
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
+
 jobs:
   deploy:
+    environment: intershipBackend-prod
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup SSH Agent
-        uses: webfactory/ssh-agent@v0.9.0
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          ssh-private-key: ${{ secrets.SSH_KEY }}
+          node-version: 22
 
-      - name: Add server to known hosts
-        run: |
-          mkdir -p ~/.ssh
-          ssh-keyscan -H 192.168.0.107 >> ~/.ssh/known_hosts
+      - name: Install dependencies
+        run: npm ci
 
-      - name: Install rsync
-        run: sudo apt-get update && sudo apt-get install -y rsync
+      - name: Build application
+        run: npm run build
 
-      - name: Copy project to server
-        run: |
-          rsync -avz --exclude=node_modules . littlepoet@192.168.0.107:/home/littlepoet/deploy
+      - name: Run Prisma generate
+        run: npx prisma generate
 
-      - name: Deploy over SSH
-        run: |
-          ssh littlepoet@192.168.0.107 << 'EOF'
-            cd /home/littlepoet/deploy
-            docker-compose down
-            docker-compose up -d --build
-          EOF
+      - name: Apply database migrations
+        run: npx prisma migrate deploy
+
+      - name: Install Railway CLI
+        run: npm install -g @railway/cli
+
+      - name: Deploy to Railway
+        run: railway up --service backend-api --environment production
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
