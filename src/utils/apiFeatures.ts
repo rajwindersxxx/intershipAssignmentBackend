@@ -6,13 +6,23 @@
  * @class APIFeatures
  * @template T  typeof prisma.job.findMany
  */
+type SortOrder = "asc" | "desc";
+
+interface PrismaFilterOptions {
+  where?: Record<string, unknown | Record<string, unknown>>;
+  select?: Record<string, boolean>;
+  orderBy?: Record<string, SortOrder>;
+  skip?: number;
+  take?: number;
+}
+
 export class APIFeatures<T> {
   queryString: Record<string, string>;
-  filterOptions: T;
+  filterOptions: PrismaFilterOptions;
   limit: number;
   offset: number;
   constructor(queryString: Record<string, string>) {
-    this.filterOptions = {} as T;
+    this.filterOptions = {};
     this.queryString = queryString;
     this.limit = 10;
     this.offset = 0;
@@ -79,12 +89,13 @@ export class APIFeatures<T> {
   sort() {
     const { sortby, sortOrder } = this.queryString;
     let sorting: { [key: string]: string };
+    const order: SortOrder = sortOrder === "asc" ? "asc" : "desc";
 
     if (sortby) {
       sorting = {
         [String(sortby)]: String(sortOrder || "desc"),
       };
-      this.filterOptions = { ...this.filterOptions, orderBy: sorting };
+      this.filterOptions = { ...this.filterOptions, orderBy: { [sortby]: order } };
     }
     return this;
   }

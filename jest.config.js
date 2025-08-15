@@ -6,10 +6,11 @@ const tsJestTransformCfg = createDefaultPreset().transform;
 /** @type {import("jest").Config} **/
 module.exports = {
   preset: "ts-jest",
-  testMatch: ["**/tests/testModules/*.test.ts"],
+  testMatch: [
+    "**/tests/testModules/integration/**/*.test.ts",
+    "**/tests/testModules/unit/**/*.test.ts",
+  ],
   setupFiles: ["<rootDir>tests/jest.setup.ts"],
-  globalSetup: '<rootDir>/tests/jest.globalSetup.ts',
-  globalTeardown: '<rootDir>/tests/jest.globalTeardown.ts',
   testEnvironment: "node",
   transform: {
     ...tsJestTransformCfg,

@@ -1,7 +1,7 @@
-import { Product } from "../../generated/prisma";
-import { prisma } from "../../src/utils/prismaClient";
-import { testFactory } from "../testHelpers/testFactory";
-import { testCatchAsync } from "../testHelpers/utils";
+import { Product } from "../../../generated/prisma";
+import { prisma } from "../../../src/utils/prismaClient";
+import { testFactory } from "../../testHelpers/testFactory";
+import { testCatchAsync } from "../../testHelpers/utils";
 const tf = new testFactory();
 
 describe("Product route tests", () => {

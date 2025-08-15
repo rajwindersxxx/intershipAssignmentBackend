@@ -18,7 +18,7 @@ const fileFilter = (
   if (allowedExtensions.includes(ext) && file.mimetype.startsWith("image")) {
     cb(null, true);
   } else {
-    cb(new appError("only image are allowed ", 400));
+    cb(new appError("only image are allowed ", 400, "VALIDATION_ERROR"));
   }
 };
 
@@ -28,24 +28,35 @@ export const upload = multer({
   limits: { fileSize: 5 * 1024 * 1024 },
 });
 
-export const processImageMiddleware = catchAsync(async (req, res, next) => {
-  if (!req.file) return next()
-  const filename = `${Date.now()}.webp`;
-  const outputPath = path.join("uploads", filename);
-  const processImageBuffer = await sharp(req.file.buffer)
-  .resize({
-    width: 512,
-    height: 512,
-    fit: sharp.fit.cover,
-    position: sharp.strategy.entropy,
-  })
-  .webp({ quality: 80 })
-  .toBuffer();
-  fs.writeFileSync(outputPath, processImageBuffer);
-  const imagUrl = `http://localhost:4000/uploads/${filename}`;
-  req.body.image = imagUrl;
-  req.filePath = outputPath;
-  // !temporary fix
-  req.body.departmentId = Number(req.body.departmentId)
+export const processImagesMiddleware = catchAsync(async (req, res, next) => {
+  const files = req.files as Express.Multer.File[];
+  if (!files || files.length === 0) return next();
+
+  const imageUrls: string[] = [];
+  const filePaths: string[] = [];
+
+  for (const file of files) {
+    const filename = `${Date.now()}-${file.originalname.split(".")[0]}.webp`;
+    const outputPath = path.join("uploads", filename);
+
+    const processedBuffer = await sharp(file.buffer)
+      .resize({
+        width: 512,
+        height: 512,
+        fit: sharp.fit.cover,
+        position: sharp.strategy.entropy,
+      })
+      .webp({ quality: 80 })
+      .toBuffer();
+    // currently i am using internal directory
+    fs.writeFileSync(outputPath, processedBuffer);
+
+    imageUrls.push(`http://localhost:4000/uploads/${filename}`);
+    filePaths.push(outputPath);
+  }
+
+  req.body.images = imageUrls;
+  req.filePaths = filePaths;
+
   next();
 });

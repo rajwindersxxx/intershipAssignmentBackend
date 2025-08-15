@@ -1,7 +1,7 @@
-import app from "../../src/app";
+import app from "../../../src/app";
 import request from "supertest";
-import { prisma } from "../../src/utils/prismaClient";
-import { testCatchAsync } from "../testHelpers/utils";
+import { prisma } from "../../../src/utils/prismaClient";
+import { testCatchAsync } from "../../testHelpers/utils";
 
 const authData = {
   email: "test52634564@gmail.com",
@@ -95,7 +95,6 @@ describe("Auth Routes (Cookie-based JWT)", () => {
     });
     expect(res.statusCode).toBe(200);
   });
-
 
   it("should fail to get user info with invalid cookie", async () => {
     const res = await request(app)

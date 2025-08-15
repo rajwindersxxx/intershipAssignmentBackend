@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "types": ["node", "jest"],
     "useUnknownInCatchVariables": false,
     "target": "es2022",
     "module": "commonjs",
@@ -10,8 +11,12 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "typeRoots": ["./node_modules/@types", "src/core/types", "tests/testModules"],
+    "typeRoots": [
+      "./node_modules/@types",
+      "src/core/types",
+      "tests/testModules"
+    ]
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "tests"],
   "exclude": ["node_modules", "dist", "tests"]
 }

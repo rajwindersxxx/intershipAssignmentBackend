@@ -1,4 +1,5 @@
 import { Response } from "express";
+import { deepStrip } from "./utils";
 /**
  * Quick JSON response helper function for Express.
  *
@@ -34,27 +35,5 @@ export function response(
 }
 
 export default response;
-/**
- * this recursive function used to remove files for nested object ,
- * found this function on internet
- * @param {object} obj
- * @param {string[]} [keyToRemove=[]]
- * @return {*}  {object}
- */
-function deepStrip(obj: object, keyToRemove: string[] = []): object {
-  if (obj instanceof Date) {
-    return obj;
-  }
-  if (Array.isArray(obj)) {
-    return obj.map((item) => deepStrip(item, keyToRemove));
-  } else if (obj && typeof obj === "object") {
-    const newObj: Record<string, unknown> = {};
-    for (const [key, value] of Object.entries(obj)) {
-      if (!keyToRemove.includes(key)) {
-        newObj[key] = deepStrip(value, keyToRemove);
-      }
-    }
-    return newObj;
-  }
-  return obj;
-}
+
+
