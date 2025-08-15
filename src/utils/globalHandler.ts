@@ -1,8 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-import path from "path";
-import fs from "fs";
-
 import { appError } from "./appError";
+import { devMode } from "../config/server.config";
+import { deleteUploadedFiles } from "./utils";
 export function globalHandler(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error: any,
@@ -10,16 +9,11 @@ export function globalHandler(
   res: Response,
   _next: NextFunction
 ) {
-  if (req.filePath) {
-    const fullPath = path.resolve(
-      process.cwd(),
-      "uploads",
-      path.basename(req.filePath)
-    );
-    fs.unlink(fullPath, (err) => {
-      if (err) console.error("Error deleting file:", err.message);
-      else console.log("Deleted file due to error:", req.filePath);
-    });
+  if (devMode) console.log(error);
+  const files = req.files as Express.Multer.File[];
+  if (files) {
+    const paths = files.map((file: Express.Multer.File) => file.path);
+    deleteUploadedFiles(paths);
   }
   if (error.name === "PrismaClientValidationError") {
     error = new appError(

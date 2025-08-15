@@ -11,17 +11,29 @@ import authRouter from "./routes/auth.routes";
 import { appError } from "./utils/appError";
 import productRouter from "./routes/product.routes";
 import orderRoute from "./routes/order.routes";
+import hpp from "hpp";
+import rateLimit from "express-rate-limit";
+import { devMode } from "./config/server.config";
 dotenv.config({ path: "./.env" });
 const app = express();
 app.use(
   cors({
-    origin: "http://localhost:5173", // allow your frontend
-    credentials: true, // allow cookies if you're using them
+    origin: process.env.ORIGEN_URL || "http://localhost:5173",
+    credentials: true,
   })
 );
-app.use(morgan("dev"));
+if (devMode) app.use(morgan("dev"));
 
 app.use(helmet());
+app.use(hpp());
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 100,
+  standardHeaders: true,
+  message: "Too many requests from this IP , please try again in an hour!",
+});
+if (!devMode) app.use(limiter);
+
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
 app.use(express.json({ limit: "10kb" }));
