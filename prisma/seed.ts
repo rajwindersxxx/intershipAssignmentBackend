@@ -53,6 +53,7 @@ async function main() {
   if (args.includes("--admin")) {
     return seedData.createAdmin();
   }
+  seedData.clearData();
   return seedData.seedFakeData();
 }
 
@@ -133,17 +134,20 @@ function getProducts(users: User[]) {
     description: string;
     price: number;
     category: string;
-    imageUrl: string;
+    images: string[];
     inventoryCount: number;
     userId: number;
   }[] = [];
   for (let i = 0; i <= 20; i++) {
+    const images: string[] = Array.from({ length: 5 }, () =>
+      faker.image.urlLoremFlickr({ category: "product" })
+    );
     const product = {
       name: faker.commerce.productName(),
       description: faker.commerce.productDescription(),
       price: parseFloat(faker.commerce.price({ min: 5, max: 500, dec: 2 })),
       category: faker.commerce.department(),
-      imageUrl: faker.image.urlLoremFlickr({ category: "product" }),
+      images: images,
       inventoryCount: faker.number.int({ min: 0, max: 200 }),
       userId: userIds[Math.floor(Math.random() * userIds.length)],
     };
@@ -170,14 +174,14 @@ function getUsers() {
     };
     if (index < 2)
       user = {
-        email: faker.internet.email(),
+        email: `${Math.floor(Math.random() * 1000)}${faker.internet.email()}`,
         name: faker.person.fullName(),
         password,
         role: "ADMIN",
       };
     else {
       user = {
-        email: faker.internet.email(),
+        email: `${Math.floor(Math.random() * 1000)}${faker.internet.email()}`,
         name: faker.person.fullName(),
         password,
       };

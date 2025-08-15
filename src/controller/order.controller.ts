@@ -148,7 +148,7 @@ export class orderController {
           select: {
             name: true,
             id: true,
-            imageUrl: true,
+            images: true,
           },
         },
       },

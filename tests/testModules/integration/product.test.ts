@@ -13,7 +13,7 @@ describe("Product route tests", () => {
     description: "Test product",
     price: 1234,
     category: "test",
-    imageUrl: "https://tiven.xyz",
+    images: ["https://tiven.xyz"],
     inventoryCount: 10,
   };
 

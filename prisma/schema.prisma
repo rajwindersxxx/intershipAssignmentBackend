@@ -43,7 +43,7 @@ model Product {
   description    String
   price          Float
   category       String
-  imageUrl       String
+  images         Json
   inventoryCount Int
   orderItems     OrderItem[]
   createdAt      DateTime    @default(now())

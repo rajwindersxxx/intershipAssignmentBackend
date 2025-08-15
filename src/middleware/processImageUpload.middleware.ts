@@ -5,6 +5,7 @@ import path from "path";
 import sharp from "sharp";
 import { Request } from "express";
 import fs from "fs";
+import { serverUrl } from "../config/server.config";
 
 const allowedExtensions = [".jpg", ".jpeg", ".png", ".webp"];
 
@@ -51,7 +52,7 @@ export const processImagesMiddleware = catchAsync(async (req, res, next) => {
     // currently i am using internal directory
     fs.writeFileSync(outputPath, processedBuffer);
 
-    imageUrls.push(`http://localhost:4000/uploads/${filename}`);
+    imageUrls.push(`${serverUrl}/uploads/${filename}`);
     filePaths.push(outputPath);
   }
 
