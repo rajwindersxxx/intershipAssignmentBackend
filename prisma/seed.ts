@@ -29,11 +29,9 @@ export class seedData {
       await prisma.orderItem.deleteMany();
       await prisma.order.deleteMany();
       await prisma.product.deleteMany();
-      await prisma.user.deleteMany()
-       console.log("all data cleared ")
-    } catch (error) {
-        console.log(error)
-    }
+      await prisma.user.deleteMany();
+      console.log("all data cleared ");
+    } catch {}
   }
   static async createAdmin() {
     console.log("seeding admin only");

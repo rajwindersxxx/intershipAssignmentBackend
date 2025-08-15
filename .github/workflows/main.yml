@@ -45,8 +45,8 @@ jobs:
       - name: Lint code
         run: npm run lint
 
-      - name: Apply DB migrations
-        run: npx prisma migrate deploy
+      - name: apply schema to DB
+        run:   npx prisma generate && npx prisma db push
 
       - name: Seed test data
         run: npm run seed
