@@ -23,11 +23,11 @@ jobs:
         run: npm ci
 
 
-      - name: Run Prisma generate
-        run: npx prisma generate
+      # - name: Run Prisma generate
+      #   run: npx prisma generate
 
-      - name: Apply database migrations
-        run: npx prisma migrate deploy
+      # - name: Apply database migrations
+      #   run: npx prisma migrate deploy
 
       - name: Install Railway CLI
         run: npm install -g @railway/cli
