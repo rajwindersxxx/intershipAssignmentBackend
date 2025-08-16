@@ -143,7 +143,7 @@ function getProducts(users: User[]) {
   }[] = [];
   for (let i = 0; i <= 20; i++) {
     const images: string[] = Array.from({ length: 5 }, () =>
-      faker.image.urlLoremFlickr({ category: "product" })
+      faker.image.personPortrait()
     );
     const product = {
       name: faker.commerce.productName(),

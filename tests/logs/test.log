@@ -1,0 +1,958 @@
+PASS tests/testModules/unit/APIFeatures.test.ts (5.195 s)
+  ● Console
+
+    console.log
+      [dotenv@17.2.1][DEBUG] No encoding is specified. UTF-8 is used by default
+
+      at _debug (node_modules/dotenv/lib/main.js:135:11)
+
+    console.log
+      [dotenv@17.2.1] injecting env (3) from .env -- tip: 🔐 prevent building .env in docker: https://dotenvx.com/prebuild
+
+      at _log (node_modules/dotenv/lib/main.js:139:11)
+
+PASS tests/testModules/unit/response.test.ts (5.362 s)
+  ● Console
+
+    console.log
+      [dotenv@17.2.1][DEBUG] No encoding is specified. UTF-8 is used by default
+
+      at _debug (node_modules/dotenv/lib/main.js:135:11)
+
+    console.log
+      [dotenv@17.2.1] injecting env (3) from .env -- tip: 🛠️  run anywhere with `dotenvx run -- yourcommand`
+
+      at _log (node_modules/dotenv/lib/main.js:139:11)
+
+PASS tests/testModules/unit/deepStrip.test.ts (5.366 s)
+  ● Console
+
+    console.log
+      [dotenv@17.2.1][DEBUG] No encoding is specified. UTF-8 is used by default
+
+      at _debug (node_modules/dotenv/lib/main.js:135:11)
+
+    console.log
+      [dotenv@17.2.1] injecting env (3) from .env -- tip: 🔐 prevent building .env in docker: https://dotenvx.com/prebuild
+
+      at _log (node_modules/dotenv/lib/main.js:139:11)
+
+PASS tests/testModules/unit/appError.test.ts (5.43 s)
+  ● Console
+
+    console.log
+      [dotenv@17.2.1][DEBUG] No encoding is specified. UTF-8 is used by default
+
+      at _debug (node_modules/dotenv/lib/main.js:135:11)
+
+    console.log
+      [dotenv@17.2.1] injecting env (3) from .env -- tip: 📡 version env with Radar: https://dotenvx.com/radar
+
+      at _log (node_modules/dotenv/lib/main.js:139:11)
+
+PASS tests/testModules/integration/product.test.ts (6.435 s)
+  ● Console
+
+    console.log
+      [dotenv@17.2.1][DEBUG] No encoding is specified. UTF-8 is used by default
+
+      at _debug (node_modules/dotenv/lib/main.js:135:11)
+
+    console.log
+      [dotenv@17.2.1] injecting env (3) from .env -- tip: ⚙️  override existing env vars with { override: true }
+
+      at _log (node_modules/dotenv/lib/main.js:139:11)
+
+    console.log
+      [dotenv@17.2.1] injecting env (0) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+
+      at _log (node_modules/dotenv/lib/main.js:139:11)
+
+    console.log
+      POST ✅ /api/v1/auth/login ✅
+      Input:
+      {
+        "email": "test1755277844213@gmail.com",
+        "password": "123456"
+      }
+      Output:
+      {
+        "status": "success",
+        "data": {
+          "message": "Logged in successfully",
+          "role": "ADMIN"
+        },
+        "timestamp": "2025-08-15T17:10:44.496Z"
+      }
+      TimeStamp: Fri Aug 15 2025 22:40:44 GMT+0530 (India Standard Time)
+
+      at testFactory.logOutput (tests/testHelpers/testFactory.ts:132:13)
+
+    console.log
+      GET ✅ /api/v1/product ✅
+      Output:
+      {
+        "status": "success",
+        "limit": 10,
+        "offset": 0,
+        "total": 25,
+        "data": [
+          {
+            "id": 23,
+            "name": "Sleek Granite Salad",
+            "description": "The sleek and monstrous Keyboard comes with lavender LED lighting for smart functionality",
+            "price": 138.95,
+            "category": "Clothing",
+            "images": [
+              "https://loremflickr.com/442/632/product?lock=3837401998613913",
+              "https://loremflickr.com/1012/1959/product?lock=5023172768257475",
+              "https://loremflickr.com/1269/853/product?lock=2161406181437900",
+              "https://loremflickr.com/2784/207/product?lock=8728736032544801",
+              "https://loremflickr.com/3845/739/product?lock=4122970463481763"
+            ],
+            "inventoryCount": 122,
+            "createdAt": "2025-08-15T09:09:47.852Z",
+            "updatedAt": "2025-08-15T09:09:47.852Z",
+            "userId": 18
+          },
+          {
+            "id": 24,
+            "name": "Sleek Silk Shirt",
+            "description": "Ergonomic Keyboard made with Gold for all-day actual support",
+            "price": 491.1,
+            "category": "Music",
+            "images": [
+              "https://loremflickr.com/1861/384/product?lock=1249217843222488",
+              "https://loremflickr.com/1903/1531/product?lock=6795446065724677",
+              "https://loremflickr.com/381/168/product?lock=3631405358084550",
+              "https://loremflickr.com/2857/735/product?lock=1910576181921063",
+              "https://loremflickr.com/2206/439/product?lock=2163655974871641"
+            ],
+            "inventoryCount": 71,
+            "createdAt": "2025-08-15T09:09:47.852Z",
+            "updatedAt": "2025-08-15T09:09:47.852Z",
+            "userId": 18
+          },
+          {
+            "id": 25,
+            "name": "Unbranded Bronze Hat",
+            "description": "Our parrot-friendly Cheese ensures wobbly comfort for your pets",
+            "price": 448.09,
+            "category": "Toys",
+            "images": [
+              "https://loremflickr.com/2654/2417/product?lock=1741089201357394",
+              "https://loremflickr.com/3483/1459/product?lock=6913613418970845",
+              "https://loremflickr.com/2441/3440/product?lock=5420460246658307",
+              "https://loremflickr.com/3098/224/product?lock=2004827705856345",
+              "https://loremflickr.com/672/2493/product?lock=6070709683410621"
+            ],
+            "inventoryCount": 125,
+            "createdAt": "2025-08-15T09:09:47.852Z",
+            "updatedAt": "2025-08-15T09:09:47.852Z",
+            "userId": 18
+          },
+          {
+            "id": 26,
+            "name": "Recycled Ceramic Salad",
+            "description": "The Innovative optimal internet solution Bacon offers reliable performance and low design",
+            "price": 103.75,
+            "category": "Electronics",
+            "images": [
+              "https://loremflickr.com/791/625/product?lock=8133402082893561",
+              "https://loremflickr.com/3089/3685/product?lock=2620412369757165",
+              "https://loremflickr.com/3946/762/product?lock=5802489159507887",
+              "https://loremflickr.com/3398/373/product?lock=7120424645399277",
+              "https://loremflickr.com/580/2846/product?lock=8703123652780108"
+            ],
+            "inventoryCount": 20,
+            "createdAt": "2025-08-15T09:09:47.852Z",
+            "updatedAt": "2025-08-15T09:09:47.852Z",
+            "userId": 18
+          },
+          {
+            "id": 27,
+            "name": "Intelligent Bronze Shoes",
+            "description": "Discover the wolf-like agility of our Chair, perfect for selfish users",
+            "price": 116.99,
+            "category": "Health",
+            "images": [
+              "https://loremflickr.com/1110/2269/product?lock=4847955704571216",
+              "https://loremflickr.com/3652/2170/product?lock=3100311640848002",
+              "https://loremflickr.com/3576/3146/product?lock=7017261420897980",
+              "https://loremflickr.com/354/1482/product?lock=5843908794187654",
+              "https://loremflickr.com/1914/1509/product?lock=5204640897280606"
+            ],
+            "inventoryCount": 162,
+            "createdAt": "2025-08-15T09:09:47.852Z",
+            "updatedAt": "2025-08-15T09:09:47.852Z",
+            "userId": 18
+          },
+          {
+            "id": 28,
+            "name": "Bespoke Granite Table",
+            "description": "Discover the standard new Tuna with an exciting mix of Gold ingredients",
+            "price": 95.15,
+            "category": "Sports",
+            "images": [
+              "https://loremflickr.com/2227/2872/product?lock=4901243339144751",
+              "https://loremflickr.com/2769/814/product?lock=3713114960304729",
+              "https://loremflickr.com/662/3707/product?lock=4286785068945474",
+              "https://loremflickr.com/1454/212/product?lock=1521777679233135",
+              "https://loremflickr.com/281/3717/product?lock=2149981441082923"
+            ],
+            "inventoryCount": 71,
+            "createdAt": "2025-08-15T09:09:47.852Z",
+            "updatedAt": "2025-08-15T09:09:47.852Z",
+            "userId": 18
+          },
+          {
+            "id": 29,
+            "name": "Practical Bamboo Table",
+            "description": "The tan Cheese combines Aland Islands aesthetics with Boron-based durability",
+            "price": 258.55,
+            "category": "Outdoors",
+            "images": [
+              "https://loremflickr.com/3365/464/product?lock=8074081630251255",
+              "https://loremflickr.com/584/1052/product?lock=3027159951834129",
+              "https://loremflickr.com/2708/637/product?lock=2596825150509857",
+              "https://loremflickr.com/422/3964/product?lock=1489162481755964",
+              "https://loremflickr.com/2251/2091/product?lock=4213562437928474"
+            ],
+            "inventoryCount": 155,
+            "createdAt": "2025-08-15T09:09:47.852Z",
+            "updatedAt": "2025-08-15T09:09:47.852Z",
+            "userId": 18
+          },
+          {
+            "id": 30,
+            "name": "Awesome Concrete Pizza",
+            "description": "The purple Pants combines North Macedonia aesthetics with Americium-based durability",
+            "price": 120.35,
+            "category": "Home",
+            "images": [
+              "https://loremflickr.com/86/1776/product?lock=2707057041643985",
+              "https://loremflickr.com/2578/176/product?lock=1129146609720686",
+              "https://loremflickr.com/2080/3937/product?lock=8963134007685613",
+              "https://loremflickr.com/399/2223/product?lock=4069756426856485",
+              "https://loremflickr.com/3324/1023/product?lock=335639000879265"
+            ],
+            "inventoryCount": 171,
+            "createdAt": "2025-08-15T09:09:47.852Z",
+            "updatedAt": "2025-08-15T09:09:47.852Z",
+            "userId": 18
+          },
+          {
+            "id": 31,
+            "name": "Handcrafted Rubber Table",
+            "description": "Ergonomic Soap made with Concrete for all-day simplistic support",
+            "price": 417.85,
+            "category": "Automotive",
+            "images": [
+              "https://loremflickr.com/388/512/product?lock=4289624430270072",
+              "https://loremflickr.com/3803/2691/product?lock=3781797687668612",
+              "https://loremflickr.com/576/2708/product?lock=5310230922729610",
+              "https://loremflickr.com/918/703/product?lock=4231610502995069",
+              "https://loremflickr.com/812/3382/product?lock=3163426055560803"
+            ],
+            "inventoryCount": 109,
+            "createdAt": "2025-08-15T09:09:47.852Z",
+            "updatedAt": "2025-08-15T09:09:47.852Z",
+            "userId": 18
+          },
+          {
+            "id": 32,
+            "name": "Fantastic Plastic Salad",
+            "description": "Stylish Hat designed to make you stand out with spirited looks",
+            "price": 98.65,
+            "category": "Clothing",
+            "images": [
+              "https://loremflickr.com/1291/3022/product?lock=1401132581471920",
+              "https://loremflickr.com/1136/3037/product?lock=228552150439529",
+              "https://loremflickr.com/2862/1408/product?lock=6168325967201451",
+              "https://loremflickr.com/1689/2703/product?lock=3113057011747993",
+              "https://loremflickr.com/3149/60/product?lock=3170395854816075"
+            ],
+            "inventoryCount": 46,
+            "createdAt": "2025-08-15T09:09:47.852Z",
+            "updatedAt": "2025-08-15T09:09:47.852Z",
+            "userId": 18
+          }
+        ],
+        "timestamp": "2025-08-15T17:10:44.515Z"
+      }
+      TimeStamp: Fri Aug 15 2025 22:40:44 GMT+0530 (India Standard Time)
+
+      at testFactory.logOutput (tests/testHelpers/testFactory.ts:132:13)
+
+    console.log
+      POST ✅ /api/v1/product ✅
+      Input:
+      {
+        "name": "Product 1755277844213",
+        "description": "Test product",
+        "price": 1234,
+        "category": "test",
+        "images": [
+          "https://tiven.xyz"
+        ],
+        "inventoryCount": 10
+      }
+      Output:
+      {
+        "status": "success",
+        "data": {
+          "id": 48,
+          "name": "Product 1755277844213",
+          "description": "Test product",
+          "price": 1234,
+          "category": "test",
+          "images": [
+            "https://tiven.xyz"
+          ],
+          "inventoryCount": 10,
+          "createdAt": "2025-08-15T17:10:44.525Z",
+          "updatedAt": "2025-08-15T17:10:44.525Z",
+          "userId": 51
+        },
+        "timestamp": "2025-08-15T17:10:44.528Z"
+      }
+      TimeStamp: Fri Aug 15 2025 22:40:44 GMT+0530 (India Standard Time)
+
+      at testFactory.logOutput (tests/testHelpers/testFactory.ts:132:13)
+
+    console.log
+      POST ✅ /api/v1/product ✅
+      Input:
+      {
+        "name": ""
+      }
+      Output:
+      {
+        "status": "fail",
+        "message": "Body validation failed",
+        "code": "VALIDATION_ERROR",
+        "error": [
+          {
+            "field": "description",
+            "message": "Required"
+          },
+          {
+            "field": "price",
+            "message": "Expected number, received nan"
+          },
+          {
+            "field": "category",
+            "message": "Required"
+          },
+          {
+            "field": "images",
+            "message": "Required"
+          },
+          {
+            "field": "inventoryCount",
+            "message": "Expected number, received nan"
+          }
+        ]
+      }
+      TimeStamp: Fri Aug 15 2025 22:40:44 GMT+0530 (India Standard Time)
+
+      at testFactory.logOutput (tests/testHelpers/testFactory.ts:132:13)
+
+    console.log
+      PATCH ✅ /api/v1/product/48 ✅
+      Input:
+      {
+        "name": "Updated Product",
+        "description": "Test product",
+        "price": 1234,
+        "category": "test",
+        "images": [
+          "https://tiven.xyz"
+        ],
+        "inventoryCount": 10
+      }
+      Output:
+      {
+        "status": "success",
+        "data": {
+          "id": 48,
+          "name": "Updated Product",
+          "description": "Test product",
+          "price": 1234,
+          "category": "test",
+          "images": [
+            "https://tiven.xyz"
+          ],
+          "inventoryCount": 10,
+          "createdAt": "2025-08-15T17:10:44.525Z",
+          "updatedAt": "2025-08-15T17:10:44.542Z",
+          "userId": 51
+        },
+        "timestamp": "2025-08-15T17:10:44.544Z"
+      }
+      TimeStamp: Fri Aug 15 2025 22:40:44 GMT+0530 (India Standard Time)
+
+      at testFactory.logOutput (tests/testHelpers/testFactory.ts:132:13)
+
+    console.log
+      GET ✅ /api/v1/product/48 ✅
+      Output:
+      {
+        "status": "success",
+        "data": {
+          "id": 48,
+          "name": "Updated Product",
+          "description": "Test product",
+          "price": 1234,
+          "category": "test",
+          "images": [
+            "https://tiven.xyz"
+          ],
+          "inventoryCount": 10,
+          "createdAt": "2025-08-15T17:10:44.525Z",
+          "updatedAt": "2025-08-15T17:10:44.542Z",
+          "userId": 51
+        },
+        "timestamp": "2025-08-15T17:10:44.549Z"
+      }
+      TimeStamp: Fri Aug 15 2025 22:40:44 GMT+0530 (India Standard Time)
+
+      at testFactory.logOutput (tests/testHelpers/testFactory.ts:132:13)
+
+    console.log
+      DELETE ✅ /api/v1/product/48 ✅
+      Output:
+      {}
+      TimeStamp: Fri Aug 15 2025 22:40:44 GMT+0530 (India Standard Time)
+
+      at testFactory.logOutput (tests/testHelpers/testFactory.ts:132:13)
+
+    console.log
+      DELETE ✅ /api/v1/product/48 ✅
+      Output:
+      {
+        "status": "fail",
+        "message": "Record not found ",
+        "code": "NOT_FOUND"
+      }
+      TimeStamp: Fri Aug 15 2025 22:40:44 GMT+0530 (India Standard Time)
+
+      at testFactory.logOutput (tests/testHelpers/testFactory.ts:132:13)
+
+    console.log
+      POST ✅ /api/v1/auth/login ✅
+      Input:
+      {
+        "email": "user1755277844570@gmail.com",
+        "password": "123456"
+      }
+      Output:
+      {
+        "status": "success",
+        "data": {
+          "message": "Logged in successfully",
+          "role": "USER"
+        },
+        "timestamp": "2025-08-15T17:10:44.785Z"
+      }
+      TimeStamp: Fri Aug 15 2025 22:40:44 GMT+0530 (India Standard Time)
+
+      at testFactory.logOutput (tests/testHelpers/testFactory.ts:132:13)
+
+    console.log
+      POST ✅ /api/v1/product ✅
+      Input:
+      {
+        "name": "Product 1755277844213",
+        "description": "Test product",
+        "price": 1234,
+        "category": "test",
+        "images": [
+          "https://tiven.xyz"
+        ],
+        "inventoryCount": 10
+      }
+      Output:
+      {
+        "status": "fail",
+        "message": "You do not have permission to perform this action.",
+        "code": "ACCESS_DENIED"
+      }
+      TimeStamp: Fri Aug 15 2025 22:40:44 GMT+0530 (India Standard Time)
+
+      at testFactory.logOutput (tests/testHelpers/testFactory.ts:132:13)
+
+PASS tests/testModules/integration/order.test.ts (6.732 s)
+  ● Console
+
+    console.log
+      [dotenv@17.2.1][DEBUG] No encoding is specified. UTF-8 is used by default
+
+      at _debug (node_modules/dotenv/lib/main.js:135:11)
+
+    console.log
+      [dotenv@17.2.1] injecting env (3) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }
+
+      at _log (node_modules/dotenv/lib/main.js:139:11)
+
+    console.log
+      [dotenv@17.2.1] injecting env (0) from .env -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }
+
+      at _log (node_modules/dotenv/lib/main.js:139:11)
+
+    console.log
+      POST ✅ /api/v1/auth/login ✅
+      Input:
+      {
+        "email": "test1755277844273@gmail.com",
+        "password": "123456"
+      }
+      Output:
+      {
+        "status": "success",
+        "data": {
+          "message": "Logged in successfully",
+          "role": "USER"
+        },
+        "timestamp": "2025-08-15T17:10:44.562Z"
+      }
+      TimeStamp: Fri Aug 15 2025 22:40:44 GMT+0530 (India Standard Time)
+
+      at testFactory.logOutput (tests/testHelpers/testFactory.ts:132:13)
+
+    console.log
+      POST ✅ /api/v1/order ✅
+      Input:
+      {
+        "items": []
+      }
+      Output:
+      {
+        "status": "fail",
+        "message": "Body validation failed",
+        "code": "VALIDATION_ERROR",
+        "error": [
+          {
+            "field": "items",
+            "message": "Array must contain at least 1 element(s)"
+          }
+        ]
+      }
+      TimeStamp: Fri Aug 15 2025 22:40:44 GMT+0530 (India Standard Time)
+
+      at testFactory.logOutput (tests/testHelpers/testFactory.ts:132:13)
+
+    console.log
+      POST ✅ /api/v1/order ✅
+      Input:
+      {
+        "items": [
+          {
+            "productId": 23,
+            "quantity": 3
+          },
+          {
+            "productId": 24,
+            "quantity": 1
+          },
+          {
+            "productId": 25,
+            "quantity": 1
+          },
+          {
+            "productId": 26,
+            "quantity": 3
+          },
+          {
+            "productId": 27,
+            "quantity": 1
+          }
+        ]
+      }
+      Output:
+      {
+        "status": "success",
+        "data": {
+          "totalAmount": 1784.28,
+          "totalItems": 9,
+          "orderId": 46
+        },
+        "timestamp": "2025-08-15T17:10:44.593Z"
+      }
+      TimeStamp: Fri Aug 15 2025 22:40:44 GMT+0530 (India Standard Time)
+
+      at testFactory.logOutput (tests/testHelpers/testFactory.ts:132:13)
+
+    console.log
+      GET ✅ /api/v1/order/me ✅
+      Output:
+      {
+        "status": "success",
+        "data": [
+          {
+            "id": 46,
+            "userId": 52,
+            "totalAmount": 1784.28,
+            "totalItems": 9,
+            "status": "PENDING",
+            "createdAt": "2025-08-15T17:10:44.587Z",
+            "updatedAt": "2025-08-15T17:10:44.587Z",
+            "items": [
+              {
+                "id": 66,
+                "orderId": 46,
+                "productId": 23,
+                "quantity": 3,
+                "price": 138.95,
+                "product": {
+                  "name": "Sleek Granite Salad",
+                  "price": 138.95
+                }
+              },
+              {
+                "id": 67,
+                "orderId": 46,
+                "productId": 24,
+                "quantity": 1,
+                "price": 491.1,
+                "product": {
+                  "name": "Sleek Silk Shirt",
+                  "price": 491.1
+                }
+              },
+              {
+                "id": 68,
+                "orderId": 46,
+                "productId": 25,
+                "quantity": 1,
+                "price": 448.09,
+                "product": {
+                  "name": "Unbranded Bronze Hat",
+                  "price": 448.09
+                }
+              },
+              {
+                "id": 69,
+                "orderId": 46,
+                "productId": 26,
+                "quantity": 3,
+                "price": 103.75,
+                "product": {
+                  "name": "Recycled Ceramic Salad",
+                  "price": 103.75
+                }
+              },
+              {
+                "id": 70,
+                "orderId": 46,
+                "productId": 27,
+                "quantity": 1,
+                "price": 116.99,
+                "product": {
+                  "name": "Intelligent Bronze Shoes",
+                  "price": 116.99
+                }
+              }
+            ]
+          }
+        ],
+        "timestamp": "2025-08-15T17:10:44.603Z"
+      }
+      TimeStamp: Fri Aug 15 2025 22:40:44 GMT+0530 (India Standard Time)
+
+      at testFactory.logOutput (tests/testHelpers/testFactory.ts:132:13)
+
+    console.log
+      POST ✅ /api/v1/order/checkout/46 ✅
+      Output:
+      {
+        "status": "success",
+        "data": {
+          "id": 46,
+          "userId": 52,
+          "totalAmount": 1784.28,
+          "totalItems": 9,
+          "status": "PAID",
+          "createdAt": "2025-08-15T17:10:44.587Z",
+          "updatedAt": "2025-08-15T17:10:44.611Z"
+        },
+        "timestamp": "2025-08-15T17:10:44.614Z"
+      }
+      TimeStamp: Fri Aug 15 2025 22:40:44 GMT+0530 (India Standard Time)
+
+      at testFactory.logOutput (tests/testHelpers/testFactory.ts:132:13)
+
+    console.log
+      POST ✅ /api/v1/order/dispatch/46 ✅
+      Output:
+      {
+        "status": "fail",
+        "message": "You do not have permission to perform this action.",
+        "code": "ACCESS_DENIED"
+      }
+      TimeStamp: Fri Aug 15 2025 22:40:44 GMT+0530 (India Standard Time)
+
+      at testFactory.logOutput (tests/testHelpers/testFactory.ts:132:13)
+
+    console.log
+      POST ✅ /api/v1/auth/login ✅
+      Input:
+      {
+        "email": "admin1755277844320@gmail.com",
+        "password": "123456"
+      }
+      Output:
+      {
+        "status": "success",
+        "data": {
+          "message": "Logged in successfully",
+          "role": "ADMIN"
+        },
+        "timestamp": "2025-08-15T17:10:44.838Z"
+      }
+      TimeStamp: Fri Aug 15 2025 22:40:44 GMT+0530 (India Standard Time)
+
+      at testFactory.logOutput (tests/testHelpers/testFactory.ts:132:13)
+
+    console.log
+      POST ✅ /api/v1/order/dispatch/46 ✅
+      Output:
+      {
+        "status": "success",
+        "data": {
+          "id": 46,
+          "userId": 52,
+          "totalAmount": 1784.28,
+          "totalItems": 9,
+          "status": "DISPATCHED",
+          "createdAt": "2025-08-15T17:10:44.587Z",
+          "updatedAt": "2025-08-15T17:10:44.858Z"
+        },
+        "timestamp": "2025-08-15T17:10:44.864Z"
+      }
+      TimeStamp: Fri Aug 15 2025 22:40:44 GMT+0530 (India Standard Time)
+
+      at testFactory.logOutput (tests/testHelpers/testFactory.ts:132:13)
+
+    console.log
+      GET ✅ /api/v1/order ✅
+      Output:
+      {
+        "status": "success",
+        "offset": 0,
+        "limit": 10,
+        "total": 25,
+        "data": [
+          {
+            "id": 22,
+            "userId": 25,
+            "totalAmount": 769.38,
+            "totalItems": 2,
+            "status": "PENDING",
+            "createdAt": "2025-08-15T09:09:47.863Z",
+            "updatedAt": "2025-08-15T09:09:47.863Z"
+          },
+          {
+            "id": 23,
+            "userId": 19,
+            "totalAmount": 2460.02,
+            "totalItems": 8,
+            "status": "PENDING",
+            "createdAt": "2025-08-15T09:09:47.863Z",
+            "updatedAt": "2025-08-15T09:09:47.863Z"
+          },
+          {
+            "id": 24,
+            "userId": 21,
+            "totalAmount": 1124.21,
+            "totalItems": 7,
+            "status": "PENDING",
+            "createdAt": "2025-08-15T09:09:47.863Z",
+            "updatedAt": "2025-08-15T09:09:47.863Z"
+          },
+          {
+            "id": 25,
+            "userId": 21,
+            "totalAmount": 4123.33,
+            "totalItems": 15,
+            "status": "PENDING",
+            "createdAt": "2025-08-15T09:09:47.863Z",
+            "updatedAt": "2025-08-15T09:09:47.863Z"
+          },
+          {
+            "id": 26,
+            "userId": 19,
+            "totalAmount": 2373.06,
+            "totalItems": 5,
+            "status": "PENDING",
+            "createdAt": "2025-08-15T09:09:47.863Z",
+            "updatedAt": "2025-08-15T09:09:47.863Z"
+          },
+          {
+            "id": 27,
+            "userId": 20,
+            "totalAmount": 2171.01,
+            "totalItems": 11,
+            "status": "PENDING",
+            "createdAt": "2025-08-15T09:09:47.863Z",
+            "updatedAt": "2025-08-15T09:09:47.863Z"
+          },
+          {
+            "id": 28,
+            "userId": 22,
+            "totalAmount": 1033.56,
+            "totalItems": 9,
+            "status": "PENDING",
+            "createdAt": "2025-08-15T09:09:47.863Z",
+            "updatedAt": "2025-08-15T09:09:47.863Z"
+          },
+          {
+            "id": 29,
+            "userId": 24,
+            "totalAmount": 990.6,
+            "totalItems": 3,
+            "status": "PENDING",
+            "createdAt": "2025-08-15T09:09:47.863Z",
+            "updatedAt": "2025-08-15T09:09:47.863Z"
+          },
+          {
+            "id": 30,
+            "userId": 20,
+            "totalAmount": 2408.34,
+            "totalItems": 11,
+            "status": "PENDING",
+            "createdAt": "2025-08-15T09:09:47.863Z",
+            "updatedAt": "2025-08-15T09:09:47.863Z"
+          },
+          {
+            "id": 31,
+            "userId": 23,
+            "totalAmount": 153.37,
+            "totalItems": 2,
+            "status": "PENDING",
+            "createdAt": "2025-08-15T09:09:47.863Z",
+            "updatedAt": "2025-08-15T09:09:47.863Z"
+          }
+        ],
+        "timestamp": "2025-08-15T17:10:44.891Z"
+      }
+      TimeStamp: Fri Aug 15 2025 22:40:44 GMT+0530 (India Standard Time)
+
+      at testFactory.logOutput (tests/testHelpers/testFactory.ts:132:13)
+
+    console.log
+      POST ✅ /api/v1/auth/login ✅
+      Input:
+      {
+        "email": "test1755277844273@gmail.com",
+        "password": "123456"
+      }
+      Output:
+      {
+        "status": "success",
+        "data": {
+          "message": "Logged in successfully",
+          "role": "USER"
+        },
+        "timestamp": "2025-08-15T17:10:45.107Z"
+      }
+      TimeStamp: Fri Aug 15 2025 22:40:45 GMT+0530 (India Standard Time)
+
+      at testFactory.logOutput (tests/testHelpers/testFactory.ts:132:13)
+
+    console.log
+      GET ✅ /api/v1/order/46 ✅
+      Output:
+      {
+        "status": "success",
+        "data": [
+          {
+            "id": 66,
+            "orderId": 46,
+            "productId": 23,
+            "quantity": 3,
+            "price": 138.95
+          },
+          {
+            "id": 67,
+            "orderId": 46,
+            "productId": 24,
+            "quantity": 1,
+            "price": 491.1
+          },
+          {
+            "id": 68,
+            "orderId": 46,
+            "productId": 25,
+            "quantity": 1,
+            "price": 448.09
+          },
+          {
+            "id": 69,
+            "orderId": 46,
+            "productId": 26,
+            "quantity": 3,
+            "price": 103.75
+          },
+          {
+            "id": 70,
+            "orderId": 46,
+            "productId": 27,
+            "quantity": 1,
+            "price": 116.99
+          }
+        ],
+        "timestamp": "2025-08-15T17:10:45.114Z"
+      }
+      TimeStamp: Fri Aug 15 2025 22:40:45 GMT+0530 (India Standard Time)
+
+      at testFactory.logOutput (tests/testHelpers/testFactory.ts:132:13)
+
+    console.log
+      DELETE ✅ /api/v1/order/46 ✅
+      Output:
+      {
+        "status": "success",
+        "data": null,
+        "timestamp": "2025-08-15T17:10:45.122Z"
+      }
+      TimeStamp: Fri Aug 15 2025 22:40:45 GMT+0530 (India Standard Time)
+
+      at testFactory.logOutput (tests/testHelpers/testFactory.ts:132:13)
+
+    console.log
+      DELETE ✅ /api/v1/order/46 ✅
+      Output:
+      {
+        "status": "fail",
+        "message": "Order not found ",
+        "code": "NOT_FOUND"
+      }
+      TimeStamp: Fri Aug 15 2025 22:40:45 GMT+0530 (India Standard Time)
+
+      at testFactory.logOutput (tests/testHelpers/testFactory.ts:132:13)
+
+PASS tests/testModules/integration/auth.test.ts (7.427 s)
+  ● Console
+
+    console.log
+      [dotenv@17.2.1][DEBUG] No encoding is specified. UTF-8 is used by default
+
+      at _debug (node_modules/dotenv/lib/main.js:135:11)
+
+    console.log
+      [dotenv@17.2.1] injecting env (3) from .env -- tip: 📡 observe env with Radar: https://dotenvx.com/radar
+
+      at _log (node_modules/dotenv/lib/main.js:139:11)
+
+    console.log
+      [dotenv@17.2.1] injecting env (0) from .env -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }
+
+      at _log (node_modules/dotenv/lib/main.js:139:11)
+
+
+Test Suites: 7 passed, 7 total
+Tests:       57 passed, 57 total
+Snapshots:   0 total
+Time:        8.123 s
+Ran all test suites.

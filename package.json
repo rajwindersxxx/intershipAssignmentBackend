@@ -21,11 +21,12 @@
     "seedAdmin": "ts-node prisma/seed.ts --admin",
     "test": "jest",
     "test:debug": "npx jest --runInBand --bail",
-    "test:logs": "LOGS=true npx jest 2>&1 | tee tests/logs/test.log",
+    "test:logs": "mkdir -p tests/logs && LOGS=true npx jest 2>&1 | tee tests/logs/test.log",
     "seedAndTest": "ts-node prisma/seed.ts && jest "
   },
   "dependencies": {
     "@prisma/client": "^6.13.0",
+    "@supabase/supabase-js": "^2.55.0",
     "@types/faker": "^6.6.8",
     "@types/hpp": "^0.2.6",
     "@types/supertest": "^6.0.3",

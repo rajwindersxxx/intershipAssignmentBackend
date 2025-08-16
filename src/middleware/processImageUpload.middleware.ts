@@ -4,8 +4,7 @@ import { appError } from "../utils/appError";
 import path from "path";
 import sharp from "sharp";
 import { Request } from "express";
-import fs from "fs";
-import { serverUrl } from "../config/server.config";
+import { uploadImageToSupabase } from "../supabase/bucket";
 
 const allowedExtensions = [".jpg", ".jpeg", ".png", ".webp"];
 
@@ -50,14 +49,14 @@ export const processImagesMiddleware = catchAsync(async (req, res, next) => {
       .webp({ quality: 80 })
       .toBuffer();
     // currently i am using internal directory
-    fs.writeFileSync(outputPath, processedBuffer);
+    // fs.writeFileSync(outputPath, processedBuffer);
+    // now it upload to supabase bucket
+    const url =  await uploadImageToSupabase(processedBuffer, filename)
 
-    imageUrls.push(`${serverUrl}/uploads/${filename}`);
+    imageUrls.push(url);
     filePaths.push(outputPath);
   }
-
   req.body.images = imageUrls;
   req.filePaths = filePaths;
-
   next();
 });

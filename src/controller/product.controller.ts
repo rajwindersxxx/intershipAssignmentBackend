@@ -65,4 +65,13 @@ export class productController {
     });
     response(res, data);
   });
+  static getProductCategories = catchAsync(async (req, res, _next) => {
+    // * Might slow for large db ,
+    const categories = await prisma.product.findMany({
+      select: { category: true },
+      distinct: ["category"],
+    });
+    const categoryList = categories.map((c) => c.category);
+    response(res, categoryList)
+  });
 }

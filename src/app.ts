@@ -16,12 +16,15 @@ import rateLimit from "express-rate-limit";
 import { devMode } from "./config/server.config";
 dotenv.config({ path: "./.env" });
 const app = express();
+
+app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 app.use(
   cors({
     origin: process.env.ORIGEN_URL || "http://localhost:5173",
     credentials: true,
   })
 );
+
 if (devMode) app.use(morgan("dev"));
 
 app.use(helmet());
@@ -33,8 +36,6 @@ const limiter = rateLimit({
   message: "Too many requests from this IP , please try again in an hour!",
 });
 if (!devMode) app.use(limiter);
-
-app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
 app.use(express.json({ limit: "10kb" }));
 app.use(express.urlencoded({ extended: true, limit: "10kb" }));

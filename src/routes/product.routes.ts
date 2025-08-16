@@ -9,7 +9,7 @@ import {
   upload,
 } from "../middleware/processImageUpload.middleware";
 const productRouter = express();
-
+productRouter.get("/categories", productController.getProductCategories);
 productRouter.get("/", productController.getAllProducts);
 productRouter.get("/:id", productController.getProductDetails);
 
@@ -28,6 +28,11 @@ productRouter
   );
 productRouter
   .route("/:id")
-  .patch(validationMiddleware(updateProduct), productController.updateProduct)
+  .patch(
+    upload.array("images", 5),
+    processImagesMiddleware,
+    validationMiddleware(updateProduct),
+    productController.updateProduct
+  )
   .delete(validationMiddleware(params), productController.deleteProduct);
 export default productRouter;
