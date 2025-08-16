@@ -30,11 +30,13 @@ jobs:
       DATABASE_URL: postgres://testuser:testpass@localhost:5432/testdb
       NODE_ENV: test
       ACCESS_SECRET: ${{ secrets.ACCESS_SECRET }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{secrets.SUPABASE_SERVICE_ROLE_KEY}}
+      SUPABASE_URL: ${{secrets.SUPABASE_URL}}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Node.js4
         uses: actions/setup-node@v4
         with:
           node-version: 22
