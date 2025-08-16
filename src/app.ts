@@ -16,15 +16,14 @@ import rateLimit from "express-rate-limit";
 import { devMode } from "./config/server.config";
 dotenv.config({ path: "./.env" });
 const app = express();
-app.set("trust proxy", 1); 
-app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
+app.set("trust proxy", 1);
 app.use(
   cors({
-    origin: process.env.ORIGEN_URL || "http://localhost:5173",
+    origin: devMode ? "http://localhost:5173" : process.env.CORE_URL,
     credentials: true,
-
   })
 );
+app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
 if (devMode) app.use(morgan("dev"));
 
