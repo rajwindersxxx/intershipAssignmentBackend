@@ -142,15 +142,15 @@ function getProducts(users: User[]) {
     userId: number;
   }[] = [];
   for (let i = 0; i <= 20; i++) {
-    const images: string[] = Array.from({ length: 5 }, () =>
-      faker.image.personPortrait()
-    );
+  const images = Array.from({ length: 3 + Math.floor(Math.random() * 3) }, (_, idx) =>
+    `https://picsum.photos/seed/product-${i}-${idx}/400/400`
+  );
     const product = {
       name: faker.commerce.productName(),
       description: faker.commerce.productDescription(),
       price: parseFloat(faker.commerce.price({ min: 5, max: 500, dec: 2 })),
       category: faker.commerce.department(),
-      images: images,
+      images,
       inventoryCount: faker.number.int({ min: 0, max: 200 }),
       userId: userIds[Math.floor(Math.random() * userIds.length)],
     };
