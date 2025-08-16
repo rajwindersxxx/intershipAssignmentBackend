@@ -64,8 +64,8 @@ This API supports **user authentication**, **product management**, **order proce
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/rajwindersxxx/ecommerce-backend-api.git
-cd ecommerce-backend-api
+git clone https://github.com/rajwindersxxx/intershipAssignmentBackend.git
+cd intershipAssignmentBackend
 ```
 
 2. Install dependencies:
