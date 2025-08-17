@@ -13,8 +13,8 @@
   "scripts": {
     "dev": "concurrently \"tsc --watch\" \" NODE_ENV=development nodemon dist/server.js\"",
     "build": "tsc && npx prisma generate",
-
     "start": "npx prisma migrate deploy && NODE_ENV=production node dist/server.js",
+    "preview": "npm run build && npm run start",
     "lint": "eslint './src/**/*.{js,ts}'",
     "lint:fix": "eslint --fix './src/**/*.{js,ts}'",
     "seed": "ts-node prisma/seed.ts",
