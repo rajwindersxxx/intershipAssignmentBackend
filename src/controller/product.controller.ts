@@ -68,6 +68,9 @@ export class productController {
   static getProductCategories = catchAsync(async (req, res, _next) => {
     // * Might slow for large db ,
     const categories = await prisma.product.findMany({
+      where: {
+        active: true
+      },
       select: { category: true },
       distinct: ["category"],
     });

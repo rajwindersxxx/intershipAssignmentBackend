@@ -41,7 +41,7 @@ export class orderController {
       price: item.price,
       orderId: order.id,
     }));
-    // * step missing => quantity need to be reduced 
+    // * step missing => quantity need to be reduced
     // finally create a order
     await prisma.orderItem.createMany({
       data: createOrder,

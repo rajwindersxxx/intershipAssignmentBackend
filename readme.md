@@ -96,6 +96,8 @@ npx prisma migrate deploy  #push schema in production safely
 
 ```
 
+Note: seed Data totalAmount and items price not accurate !
+
 5. Start development server:
 
 ```bash
@@ -149,4 +151,4 @@ All API endpoints are documented with **Postman**:
 - during testing sometime token expire which is bit challenging to fix.
 - It feel bit challenging to config core and understand it working
 - making github ci/cd pipline
-- first time railway hosting is 
+- first time railway hosting is

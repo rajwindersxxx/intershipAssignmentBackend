@@ -44,7 +44,7 @@ export class authController {
     if (!verify) return next(new appError("Invalid username or password", 401, 'INVALID_CREDENTIALS'));
     if (process.env.ACCESS_SECRET) {
       const accessToken = jwt.sign(
-        { id: userData.id },
+        { id: userData.id, role: userData.role },
         process.env.ACCESS_SECRET,
         {
           expiresIn: "7d",
@@ -54,13 +54,7 @@ export class authController {
       return response(res, { message: "Logged in successfully", role: userData.role }, 200);
     }
   });
-  static logoutUser = catchAsync(async (req, res, next) => {
-    const token = req.cookies.jwtToken;
-    if (!token) {
-      return next(
-        new appError("No refresh token found", 400, "TOKEN_NOT_FOUND")
-      );
-    }
+  static logoutUser = catchAsync(async (req, res, _next) => {
     clearCookie(res, "jwtToken");
     response(res, { message: "Logged out successfully" }, 200);
   });

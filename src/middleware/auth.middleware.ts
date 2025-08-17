@@ -23,7 +23,7 @@ export class authMiddleware {
   });
   static protectedRoute = catchAsync(async (req, res, next) => {
     const token = req.cookies.jwtToken;
-    let decoded: { id: number; iat: number };
+    let decoded: { id: number; iat: number, role: string };
 
     if (!token?.trim())
       return next(
@@ -37,6 +37,7 @@ export class authMiddleware {
       decoded = verify(token, process.env.ACCESS_SECRET as string) as {
         id: number;
         iat: number;
+        role: string
       };
     } catch {
       return next(
@@ -66,6 +67,7 @@ export class authMiddleware {
     // this will use all identify loggedIn in user
 
     req.user = { id: currentUser?.id, role: currentUser?.role };
+    console.log(req.user)
     next();
   });
   static restrictRoute = (...roles: string[]) =>
