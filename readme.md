@@ -141,9 +141,12 @@ All API endpoints are documented with **Postman**:
 - **JWT authentication** via cookies
 - **Role-based access** (User & Admin)
 - **CRUD operations** for Products & Orders
-- **Docker-ready** configuration
 - **Postman documentation** for all endpoints
 
-## Note
+## Challenges
 
-- This project only support one Admin
+- my app not crash on production due to invalid cookies config.
+- during testing sometime token expire which is bit challenging to fix.
+- It feel bit challenging to config core and understand it working
+- making github ci/cd pipline
+- first time railway hosting is 
