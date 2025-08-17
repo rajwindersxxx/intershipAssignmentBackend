@@ -10,7 +10,7 @@ export function responseCookie(
     expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
     httpOnly: true,
     secure: isProd,
-    sameSite: "lax",
+    sameSite: "none",
     path: "/",
   });
 }
@@ -19,7 +19,7 @@ export function clearCookie(res: Response, cookieName: string) {
   res.clearCookie(cookieName, {
     httpOnly: true,
     secure: isProd,
-    sameSite: "lax",
+    sameSite: "none",
     path: "/",
   });
 }
