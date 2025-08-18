@@ -1,6 +1,6 @@
 import { Response } from "express";
 import { devMode } from "../config/server.config";
-
+const testMode = process.env.NODE_ENV === "test";
 export function responseCookie(
   res: Response,
   cookieName: string,
@@ -9,7 +9,7 @@ export function responseCookie(
   res.cookie(cookieName, data, {
     expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
     httpOnly: true,
-    secure: devMode ? false : true,
+    secure: devMode || testMode ? false : true,
     sameSite: "none",
     path: "/",
   });
@@ -18,7 +18,7 @@ export function responseCookie(
 export function clearCookie(res: Response, cookieName: string) {
   res.clearCookie(cookieName, {
     httpOnly: true,
-    secure: devMode ? false : true,
+    secure: devMode || testMode ? false : true,
     sameSite: "none",
     path: "/",
   });
