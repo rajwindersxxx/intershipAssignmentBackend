@@ -52,16 +52,14 @@ export class orderController {
     response(res, data);
   });
   static getMyOrders = catchAsync(async (req, res, _next) => {
-    const { filterOptions, offset, limit } = new APIFeatures<
-      typeof prisma.order.findMany
-    >(req.query as Record<string, string>)
+    const { filterOptions, offset, limit } = new APIFeatures(req)
       .filter()
       .pagination()
       .sort();
     const data = await prisma.order.findMany({
       ...filterOptions,
       where: {
-        ...(filterOptions as unknown as { where: object }).where,
+        ...filterOptions.where,
         userId: req.user.id,
       },
       include: {
@@ -79,23 +77,19 @@ export class orderController {
       skip: offset,
       take: limit,
     });
-    const { filterOptions: filterOnly } = new APIFeatures<
-      typeof prisma.order.findMany
-    >(req.query as Record<string, string>).filter();
+    const { filterOptions: filterOnly } = new APIFeatures(req).filter();
 
     const total = await prisma.order.count({
       ...filterOnly,
       where: {
-        ...(filterOnly as unknown as { where: object }).where,
+        ...filterOnly.where,
         userId: req.user.id,
       },
     });
     response(res, data, 200, { otherFields: { limit, offset, total } });
   });
   static getAllOrders = catchAsync(async (req, res, _next) => {
-    const { filterOptions, offset, limit } = new APIFeatures<
-      typeof prisma.order.findMany
-    >(req.query as Record<string, string>)
+    const { filterOptions, offset, limit } = new APIFeatures(req)
       .filter()
       .pagination()
       .sort();
@@ -116,9 +110,7 @@ export class orderController {
       skip: offset,
       take: limit,
     });
-    const { filterOptions: filterOnly } = new APIFeatures<
-      typeof prisma.order.findMany
-    >(req.query as Record<string, string>).filter();
+    const { filterOptions: filterOnly } = new APIFeatures(req).filter();
 
     const total = await prisma.order.count({
       ...filterOnly,
@@ -157,9 +149,7 @@ export class orderController {
   });
 
   static getOrderItems = catchAsync(async (req, res, _next) => {
-    const { filterOptions, offset, limit } = new APIFeatures<
-      typeof prisma.order.findMany
-    >(req.query as Record<string, string>)
+    const { filterOptions, offset, limit } = new APIFeatures(req)
       .filter()
       .pagination()
       .sort()
@@ -167,7 +157,7 @@ export class orderController {
     const data = await prisma.order.findMany({
       ...filterOptions,
       where: {
-        ...(filterOptions as unknown as { where: object }).where,
+        ...filterOptions.where,
         userId: req.user.id,
       },
       include: {
@@ -185,9 +175,7 @@ export class orderController {
       skip: offset,
       take: limit,
     });
-    const { filterOptions: filterOnly } = new APIFeatures<
-      typeof prisma.order.findMany
-    >(req.query as Record<string, string>).filter();
+    const { filterOptions: filterOnly } = new APIFeatures(req).filter();
 
     const total = await prisma.order.count({
       ...filterOnly,

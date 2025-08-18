@@ -51,7 +51,6 @@ export function validationMiddleware({
             formatZodErrors(result.error)
           )
         );
-      req.query = result.data;
     }
 
     next();

@@ -2,14 +2,15 @@ import express from "express";
 import { authMiddleware } from "../middleware/auth.middleware";
 import { productController } from "../controller/product.controller";
 import { validationMiddleware } from "../middleware/validationMiddleware";
-import { createProduct, updateProduct } from "../zod/products.zod";
+import { createProduct, searchProduct, updateProduct } from "../zod/products.zod";
 import { params } from "../zod/genetic.zod";
 import {
   processImagesMiddleware,
   upload,
 } from "../middleware/processImageUpload.middleware";
 const productRouter = express();
-productRouter.get("/categories", productController.getProductCategories);
+productRouter.get("/categories",  productController.getProductCategories);
+productRouter.get("/search", validationMiddleware(searchProduct),  productController.search)
 productRouter.get("/", productController.getAllProducts);
 productRouter.get("/:id", productController.getProductDetails);
 

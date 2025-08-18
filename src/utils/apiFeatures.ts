@@ -1,31 +1,55 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-/**
- * used to apply sorting , filter , fields and pagination , specially made for prisma functions
- *
- * @export
- * @class APIFeatures
- * @template T  typeof prisma.job.findMany
- */
+import { Request } from "express";
 type SortOrder = "asc" | "desc";
 
 interface PrismaFilterOptions {
-  where?: Record<string, unknown | Record<string, unknown>>;
+  where?: Record<string, unknown>;
   select?: Record<string, boolean>;
   orderBy?: Record<string, SortOrder>;
   skip?: number;
   take?: number;
 }
-
-export class APIFeatures<T> {
-  queryString: Record<string, string>;
+/**
+ * Utility class to transform `req.query` into Prisma-compatible options
+ * (filters, pagination, sorting, field selection).
+ *
+ * ⚠️ Important:
+ * - `ignore` removes query params silently. If you forget to include a key in `ignore`,
+ *   it will be treated as a Prisma filter.
+ * - All query values are strings by default; this class attempts to coerce them
+ *   into numbers or booleans where possible (`"true" => true`, `"42" => 42`).
+ *
+ * @example
+ * // GET /products?price[gte]=100&limit=5&offset=10&fields=name,price
+ * const { filterOptions } = new APIFeatures(req, { ignore: ["custom"] })
+ *   .filter()
+ *   .limitFields()
+ *   .sort()
+ *   .pagination();
+ *
+ * prisma.product.findMany(filterOptions);
+ *
+ * @param req - Express Request (uses req.query)
+ * @param ignore - Optional. Keys that should not be converted into Prisma filters.
+ *                  Example: `{ ignore: ["custom", "internal"] }`
+ */
+export class APIFeatures {
+  private req: Request;
+  private queryString: typeof this.req.query;
   filterOptions: PrismaFilterOptions;
   limit: number;
   offset: number;
-  constructor(queryString: Record<string, string>) {
+  ignore?: { ignore: string[] };
+  constructor(req: Request, ignore?: { ignore: string[] }) {
+    this.req = req;
+    this.ignore = ignore;
     this.filterOptions = {};
-    this.queryString = queryString;
+    this.queryString = req.query;
     this.limit = 10;
     this.offset = 0;
+    this.ignore?.ignore.map((item) => {
+      delete this.queryString[item];
+    });
   }
   filter() {
     const {
@@ -38,38 +62,31 @@ export class APIFeatures<T> {
       search,
       ...otherFields
     } = this.queryString;
-    let selectedFilters: Record<string, unknown> = {};
-    //  this will loop through fields
+
+    const selectedFilters: Record<string, unknown> = {};
+
     for (const [rawKey, rawValue] of Object.entries(otherFields)) {
-      // this will split key and value eg price[gte] => ["price" , "gte"]
       const match = rawKey.match(/^(\w+)(\[(\w+)\])?$/);
       if (!match) continue;
-      const field = match[1];
-      const operator = match[3];
+      const [field, _, operator] = match;
       let value: unknown = rawValue;
-      // this wil convert string to types eg "true" => true or "134" => 123
       if (rawValue === "true") value = true;
       else if (rawValue === "false") value = false;
       else if (!isNaN(Number(rawValue))) value = Number(rawValue);
-      //  build filter condition
+
       if (operator) {
         selectedFilters[field] = { [operator]: value };
       } else {
         selectedFilters[field] = value;
       }
     }
-    // add search filter (one at time )
     if (searchBy && search) {
-      selectedFilters = {
-        ...selectedFilters,
-        ...{
-          [searchBy]: {
-            contains: search,
-            mode: "insensitive",
-          },
-        },
+      selectedFilters[searchBy as string] = {
+        contains: search,
+        mode: "insensitive",
       };
     }
+
     this.filterOptions = { ...this.filterOptions, where: selectedFilters };
     return this;
   }
@@ -88,14 +105,12 @@ export class APIFeatures<T> {
   }
   sort() {
     const { sortby, sortOrder } = this.queryString;
-    let sorting: { [key: string]: string };
-    const order: SortOrder = sortOrder === "asc" ? "asc" : "desc";
-
-    if (sortby) {
-      sorting = {
-        [String(sortby)]: String(sortOrder || "desc"),
+    const order = sortOrder === "asc" ? "asc" : "desc";
+    if (sortby && typeof sortby === "string") {
+      this.filterOptions = {
+        ...this.filterOptions,
+        orderBy: { [sortby]: order },
       };
-      this.filterOptions = { ...this.filterOptions, orderBy: { [sortby]: order } };
     }
     return this;
   }
@@ -115,7 +130,7 @@ export class APIFeatures<T> {
     this.filterOptions = {
       ...this.filterOptions,
       where: {
-        ...(this.filterOptions as { where: object }).where,
+        ...this.filterOptions.where,
         active: true,
       },
     };

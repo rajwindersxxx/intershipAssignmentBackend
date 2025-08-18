@@ -23,3 +23,8 @@ export const updateProduct = {
   }),
   params,
 };
+export const searchProduct = {
+  querySchema: z.object({
+    limit: z.coerce.number().max(49, "limit must be less than 50").optional(),
+  }),
+};

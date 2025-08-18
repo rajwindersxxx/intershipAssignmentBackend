@@ -35,9 +35,7 @@ export class productController {
     response(res, null, 204);
   });
   static getAllProducts = catchAsync(async (req, res, _next) => {
-    const { filterOptions, offset, limit } = new APIFeatures<
-      typeof prisma.product.findMany
-    >(req.query as Record<string, string>)
+    const { filterOptions, offset, limit } = new APIFeatures(req)
       .filter()
       .limitFields()
       .pagination()
@@ -48,9 +46,7 @@ export class productController {
       take: limit,
       skip: offset,
     });
-    const { filterOptions: filterOnly } = new APIFeatures<
-      typeof prisma.product.findMany
-    >(req.query as Record<string, string>).filter();
+    const { filterOptions: filterOnly } = new APIFeatures(req).filter();
 
     const total = await prisma.product.count({
       ...filterOnly,
@@ -69,12 +65,42 @@ export class productController {
     // * Might slow for large db ,
     const categories = await prisma.product.findMany({
       where: {
-        active: true
+        active: true,
       },
       select: { category: true },
       distinct: ["category"],
     });
     const categoryList = categories.map((c) => c.category);
-    response(res, categoryList)
+    response(res, categoryList);
+  });
+  static search = catchAsync(async (req, res, _next) => {
+    // sport search feature search(by name or description)
+    const { maxPrice, minPrice } = req.query;
+    let advanceFilter;
+    if (minPrice && maxPrice) {
+      advanceFilter = {
+        price: {
+          lt: Number(maxPrice),
+          gt: Number(minPrice),
+        },
+      };
+    }
+    const { filterOptions, offset, limit } = new APIFeatures(req, {
+      ignore: ["maxPrice", "minPrice"],
+    })
+      .filter()
+      .limitFields()
+      .pagination()
+      .sort()
+      .activeOnly();
+    const customFilter = {
+      ...filterOptions,
+      where: { ...filterOptions.where, ...(advanceFilter ?? {}) },
+    };
+    const data = await prisma.product.findMany(customFilter);
+    const total = await prisma.product.count({
+      where: filterOptions.where,
+    });
+    response(res, data, 200, { otherFields: { limit, offset, total } });
   });
 }
