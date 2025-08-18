@@ -1,5 +1,4 @@
 import { Response } from "express";
-import { devMode } from "../config/server.config";
 const isProd = process.env.NODE_ENV === "production"
 export function responseCookie(
   res: Response,

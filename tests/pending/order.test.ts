@@ -1,7 +1,7 @@
-import { Order, Product, User } from "../../../generated/prisma";
-import { prisma } from "../../../src/utils/prismaClient";
-import { testFactory } from "../../testHelpers/testFactory";
-import { testCatchAsync } from "../../testHelpers/utils";
+import { Order, Product, User } from "../../generated/prisma";
+import { prisma } from "../../src/utils/prismaClient";
+import { testFactory } from "../testHelpers/testFactory";
+import { testCatchAsync } from "../testHelpers/utils";
 const tf = new testFactory();
 
 describe("Order route tests", () => {
