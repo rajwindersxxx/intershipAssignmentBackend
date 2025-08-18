@@ -68,7 +68,8 @@ export class APIFeatures {
     for (const [rawKey, rawValue] of Object.entries(otherFields)) {
       const match = rawKey.match(/^(\w+)(\[(\w+)\])?$/);
       if (!match) continue;
-      const [field, _, operator] = match;
+      const field = match[1];
+      const operator = match[3];
       let value: unknown = rawValue;
       if (rawValue === "true") value = true;
       else if (rawValue === "false") value = false;
