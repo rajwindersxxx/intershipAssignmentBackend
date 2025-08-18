@@ -26,18 +26,16 @@ export class orderController {
         userId: req.user.id,
       },
     });
-    // now create array to push in database
+    // now create array to push in database , price is added after checkout
     const createOrder = products.map((item) => ({
       productId: item.id,
       quantity: lookup.get(item.id),
-      price: item.price,
       orderId: order.id,
     }));
     // finally create a order
     await prisma.orderItem.createMany({
       data: createOrder,
     });
-    console.log(createOrder);
     response(res, { orderId: order.id }, 201, {
       otherFields: { message: "Order added to pending" },
     });
@@ -215,6 +213,7 @@ export class orderController {
     OrderItems.map((item) => {
       lookupOrder.set(item.productId, item.quantity);
     });
+
     //  2 fetch stock items
     const StokeItems = await prisma.product.findMany({
       where: {
@@ -228,6 +227,11 @@ export class orderController {
         id: true,
         name: true,
       },
+    });
+    // hashmap for price
+    const priceHashMap = new Map();
+    StokeItems.forEach((item) => {
+      priceHashMap.set(item.id, item.price);
     });
     //  3 compar if stock exists
     const itemsExist = StokeItems.map((item) => ({
@@ -262,7 +266,7 @@ export class orderController {
 
       await Promise.all(stockUpdates);
 
-      // 2. Update the order as PAID
+      // 2. Update the order as PAID, totalAmount ,totalItems
       const order = await prismaTx.order.update({
         where: {
           id: Number(req.params.id),
@@ -274,7 +278,16 @@ export class orderController {
           totalItems,
         },
       });
-
+      // finally create a order , update total amount
+      OrderItems.map(
+        async (item) =>
+          await prisma.orderItem.updateManyAndReturn({
+            where: { id: item.id },
+            data: {
+              price: priceHashMap.get(item.productId) * item.quantity,
+            },
+          })
+      );
       return order;
     });
 

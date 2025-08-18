@@ -72,55 +72,56 @@ function getOrderedItems(orders: Order[], products: Product[]) {
     orderId: number;
     productId: number;
     quantity: number;
-    price: number;
+    // price: number;
   }[] = [];
 
   for (let i = 0; i < 20; i++) {
     const orderId = orderIds[Math.floor(Math.random() * orderIds.length)];
     const product = productData[Math.floor(Math.random() * productData.length)];
     const quantity = Math.floor(Math.random() * 5) + 1; // 1–5 quantity
-    const price = Number((product.price * quantity).toFixed(2));
+    // const price = Number((product.price * quantity).toFixed(2));
 
     orderItems.push({
       orderId,
       productId: product.id,
       quantity,
-      price,
+      // price,
     });
   }
 
   return orderItems;
 }
-function getUsersOrder(users: User[], products: Product[]) {
+function getUsersOrder(users: User[], products?: Product[]) {
   const userIds = users
-    .filter((item) => item.role === "USER")
-    .map((item) => item.id);
+  .filter((item) => item.role === "USER")
+  .map((item) => item.id);
 
-  const productIds = products.map((item) => ({
-    id: item.id,
-    price: item.price,
-  }));
+  if(products) console.log(null)
+  // const productIds = products.map((item) => ({
+  //   id: item.id,
+  //   price: item.price,
+  // }));
 
-  const orders: { userId: number; totalAmount: number; totalItems: number }[] =
+  const orders: { userId: number }[] =
     [];
 
   for (let i = 0; i < 20; i++) {
-    const itemCount = Math.floor(Math.random() * 5) + 1; // 1–5 items per order
-    let totalAmount = 0;
-    let totalItems = 0;
+    // const itemCount = Math.floor(Math.random() * 5) + 1; // 1–5 items per order
+    // let totalAmount = 0;
+    // let totalItems = 0;
 
-    for (let j = 0; j < itemCount; j++) {
-      const product = productIds[Math.floor(Math.random() * productIds.length)];
-      const quantity = Math.floor(Math.random() * 5) + 1; // 1–5 quantity
+    // for (let j = 0; j < itemCount; j++) {
+    //   const product = productIds[Math.floor(Math.random() * productIds.length)];
+    //   const quantity = Math.floor(Math.random() * 5) + 1; // 1–5 quantity
 
-      totalAmount += product.price * quantity;
-      totalItems += quantity;
-    }
+    //   totalAmount += product.price * quantity;
+    //   totalItems += quantity;
+    // }
 
     const order = {
       userId: userIds[Math.floor(Math.random() * userIds.length)],
-      totalAmount: Number(totalAmount.toFixed(2)),
-      totalItems,
+      // totalAmount: Number(totalAmount.toFixed(2)),
+      // totalItems,
     };
 
     orders.push(order);
