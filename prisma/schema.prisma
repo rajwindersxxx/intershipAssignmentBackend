@@ -52,13 +52,13 @@ model Product {
   User           User        @relation(fields: [userId], references: [id])
   userId         Int
 }
-
+// set totalAmount, totalItems null in pending now store while pending
 model Order {
   id          Int         @id @default(autoincrement())
   user        User        @relation(fields: [userId], references: [id])
   userId      Int
-  totalAmount Float
-  totalItems  Int
+  totalAmount Float?
+  totalItems  Int?
   status      OrderStatus @default(PENDING)
   items       OrderItem[]
   createdAt   DateTime    @default(now())
@@ -73,5 +73,5 @@ model OrderItem {
   product   Product @relation(fields: [productId], references: [id])
   productId Int
   quantity  Int
-  price     Float
+  price     Float?
 }

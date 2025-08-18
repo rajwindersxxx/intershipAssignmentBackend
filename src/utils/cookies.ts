@@ -1,5 +1,5 @@
 import { Response } from "express";
-const isProd = process.env.NODE_ENV === "production";
+import { devMode } from "../config/server.config";
 
 export function responseCookie(
   res: Response,
@@ -9,7 +9,7 @@ export function responseCookie(
   res.cookie(cookieName, data, {
     expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
     httpOnly: true,
-    secure: isProd,
+    secure: devMode ? true : false,
     sameSite: "none",
     path: "/",
   });
@@ -18,7 +18,7 @@ export function responseCookie(
 export function clearCookie(res: Response, cookieName: string) {
   res.clearCookie(cookieName, {
     httpOnly: true,
-    secure: isProd,
+    secure: devMode ? true : false,
     sameSite: "none",
     path: "/",
   });

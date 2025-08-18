@@ -19,19 +19,11 @@ export class orderController {
         id: { in: Array.from(lookup.keys()) },
       },
     });
-    // calculate total amount
-    const totalAmount = products.reduce((sum, item) => {
-      return sum + item.price * lookup.get(item.id);
-    }, 0);
-    const totalItems = input.reduce((sum, item) => {
-      return sum + item.quantity;
-    }, 0);
+
     // // now create a new order
     const order = await prisma.order.create({
       data: {
         userId: req.user.id,
-        totalAmount,
-        totalItems,
       },
     });
     // now create array to push in database
@@ -41,12 +33,14 @@ export class orderController {
       price: item.price,
       orderId: order.id,
     }));
-    // * step missing => quantity need to be reduced
     // finally create a order
     await prisma.orderItem.createMany({
       data: createOrder,
     });
-    response(res, { totalAmount, totalItems, orderId: order.id }, 201);
+    console.log(createOrder);
+    response(res, { orderId: order.id }, 201, {
+      otherFields: { message: "Order added to pending" },
+    });
   });
   static getMyOrderedItems = catchAsync(async (req, res, _next) => {
     const data = await prisma.orderItem.findMany({
@@ -202,17 +196,90 @@ export class orderController {
     });
     response(res, data, 200, { otherFields: { offset, limit, total } });
   });
-  static checkoutOrder = catchAsync(async (req, res, _next) => {
-    const data = await prisma.order.update({
+  static checkoutOrder = catchAsync(async (req, res, next) => {
+    //   verify owner first
+    const order = await prisma.order.findMany({
       where: {
         id: Number(req.params.id),
         userId: req.user.id,
       },
-      data: {
-        status: "PAID",
+    });
+    if (!order) return next(new appError("Order not found", 404, "NOT_FOUND"));
+    //  1 fetch order items pending
+    const OrderItems = await prisma.orderItem.findMany({
+      where: {
+        orderId: Number(req.params.id),
       },
     });
-    response(res, data);
+    const lookupOrder = new Map();
+    OrderItems.map((item) => {
+      lookupOrder.set(item.productId, item.quantity);
+    });
+    //  2 fetch stock items
+    const StokeItems = await prisma.product.findMany({
+      where: {
+        id: {
+          in: Array.from(lookupOrder.keys()),
+        },
+      },
+      select: {
+        price: true,
+        inventoryCount: true,
+        id: true,
+        name: true,
+      },
+    });
+    //  3 compar if stock exists
+    const itemsExist = StokeItems.map((item) => ({
+      name: item.name,
+      requestedQuantity: lookupOrder.get(item.id),
+      availableQuantity: item.inventoryCount,
+      itemExist: item.inventoryCount >= lookupOrder.get(item.id),
+    }));
+    const hasOutOfStock = itemsExist.some((item) => !item.itemExist);
+    if (hasOutOfStock)
+      return next(
+        new appError("some items are out of stock", 400, "OUT_OF_STOCK", {
+          items: itemsExist,
+        })
+      );
+    //  5 calculate  totalAmount , items before checkout
+    const totalAmount = StokeItems.reduce((sum, item) => {
+      return sum + item.price * lookupOrder.get(item.id);
+    }, 0);
+    const totalItems = OrderItems.reduce((sum, item) => {
+      return sum + item.quantity;
+    }, 0);
+    //  4 deduct quantity
+    const updatedOrder = await prisma.$transaction(async (prismaTx) => {
+      // 1. Deduct quantity for each stock item
+      const stockUpdates = StokeItems.map((item) =>
+        prismaTx.product.update({
+          where: { id: item.id },
+          data: { inventoryCount: { decrement: lookupOrder.get(item.id) } },
+        })
+      );
+
+      await Promise.all(stockUpdates);
+
+      // 2. Update the order as PAID
+      const order = await prismaTx.order.update({
+        where: {
+          id: Number(req.params.id),
+          userId: req.user.id,
+        },
+        data: {
+          status: "PAID",
+          totalAmount,
+          totalItems,
+        },
+      });
+
+      return order;
+    });
+
+    // * update amount and prices storedItems , under development
+    response(res, updatedOrder);
   });
   static dispatchOrder = catchAsync(async (req, res, _next) => {
     const data = await prisma.order.update({
