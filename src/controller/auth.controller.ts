@@ -25,14 +25,7 @@ export class authController {
   });
   static loginUser = catchAsync(async (req, res, next) => {
     const { email, password } = req.body;
-    if (!email || !password)
-      return next(
-        new appError(
-          "please provide email and password",
-          400,
-          "VALIDATION_ERROR"
-        )
-      );
+
     const userData = await prisma.user.findUnique({
       where: {
         email,

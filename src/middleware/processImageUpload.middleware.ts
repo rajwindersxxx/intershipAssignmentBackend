@@ -1,10 +1,10 @@
+import  fs  from 'fs';
 import multer, { FileFilterCallback } from "multer";
 import { catchAsync } from "../utils/catchAsync";
 import { appError } from "../utils/appError";
 import path from "path";
 import sharp from "sharp";
 import { Request } from "express";
-import { uploadImageToSupabase } from "../supabase/bucket";
 
 const allowedExtensions = [".jpg", ".jpeg", ".png", ".webp"];
 
@@ -49,9 +49,11 @@ export const processImagesMiddleware = catchAsync(async (req, res, next) => {
       .webp({ quality: 80 })
       .toBuffer();
     // currently i am using internal directory
-    // fs.writeFileSync(outputPath, processedBuffer);
+    fs.writeFileSync(outputPath, processedBuffer);
+    const url = `http://localhost:4000/uploads/${filename}`;
     // now it upload to supabase bucket
-    const url =  await uploadImageToSupabase(processedBuffer, filename)
+    // const url =  await uploadImageToSupabase(processedBuffer, filename)
+
 
     imageUrls.push(url);
     filePaths.push(outputPath);
