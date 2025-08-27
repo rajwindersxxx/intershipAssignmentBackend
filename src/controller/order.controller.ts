@@ -198,7 +198,7 @@ export class orderController {
       },
     });
     const lookupOrder = new Map();
-    OrderItems.map((item) => {
+    OrderItems.forEach((item) => {
       lookupOrder.set(item.productId, item.quantity);
     });
 
@@ -267,7 +267,7 @@ export class orderController {
         },
       });
       // finally create a order , update total amount
-      OrderItems.map(
+      OrderItems.forEach(
         async (item) =>
           await prisma.orderItem.updateManyAndReturn({
             where: { id: item.id },
