@@ -53,7 +53,7 @@ jobs:
           args: >
             - sonar.projectKey=rajwindersxxx_shopping-e-commerce-api
             - sonar.organization=rajwindersxxx
-
+            - sonar.host.url=https://sonarcloud.io
       - name: Install dependencies
         run: npm ci
 
