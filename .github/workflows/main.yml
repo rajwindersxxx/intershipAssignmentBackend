@@ -60,16 +60,16 @@ jobs:
 
       - name: Run integration tests
         run: npm test
-        
+
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v2
         env:
           SONAR_TOKEN: ${{secrets.SONAR_TOKEN}}
         with:
           args: >
-            - sonar.projectKey=rajwindersxxx_shopping-e-commerce-api
-            - sonar.organization=rajwindersxxx
-            - sonar.host.url=https://sonarcloud.io
+            -Dsonar.projectKey=rajwindersxxx_shopping-e-commerce-api
+            -Dsonar.organization=rajwindersxxx
+            -Dsonar.host.url=https://sonarcloud.io
   deploy:
     environment: intershipBackend-prod
     name: Deploy to Railway
