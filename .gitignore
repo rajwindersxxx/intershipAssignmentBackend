@@ -6,5 +6,5 @@ generated
 .vercel
 api
 uploads/*
-
+coverage
 !uploads/.gitkeep

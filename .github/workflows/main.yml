@@ -39,12 +39,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
-
 
       - name: Install dependencies
         run: npm ci
@@ -59,9 +60,9 @@ jobs:
         run: npm run seed
 
       - name: Run integration tests
-        run: npm test
+        run: npx jest --coverage
 
-      - name: SonarCloud Scan
+      - name: Sonar Scan
         uses: SonarSource/sonarcloud-github-action@v2
         env:
           SONAR_TOKEN: ${{secrets.SONAR_TOKEN}}
@@ -70,6 +71,8 @@ jobs:
             -Dsonar.projectKey=rajwindersxxx_shopping-e-commerce-api
             -Dsonar.organization=rajwindersxxx
             -Dsonar.host.url=https://sonarcloud.io
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+
   deploy:
     environment: intershipBackend-prod
     name: Deploy to Railway
