@@ -1,13 +1,14 @@
 name: Test & Deploy
 
+# on:
+#   push:
+#     branches: [main]
+#     paths-ignore:
+#       - "README.md"
+#       - "docs/**"
+#   workflow_dispatch:
 on:
-  push:
-    branches: [main]
-    paths-ignore:
-      - "README.md"
-      - "docs/**"
   workflow_dispatch:
-
 jobs:
   test:
     environment: intershipBackend
