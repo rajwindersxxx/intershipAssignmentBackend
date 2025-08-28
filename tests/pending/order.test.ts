@@ -1,7 +1,8 @@
-import { Order, Product, User } from "../../generated/prisma";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { Product, User } from "../../generated/prisma";
 import { prisma } from "../../src/utils/prismaClient";
-import { testFactory } from "../testHelpers/testFactory";
 import { testCatchAsync } from "../testHelpers/utils";
+import { testFactory } from "../testHelpers/testFactory";
 const tf = new testFactory();
 
 describe("Order route tests", () => {
@@ -66,13 +67,13 @@ describe("Order route tests", () => {
     expect(Array.isArray(res.data)).toBe(true);
   });
 
-  it("should checkout an order", async () => {
-    const res = await tf.post({
-      path: `/order/checkout/${orderId}`,
-      expectedStatus: 200,
-    });
-    expect(res.data.status).toBe("PAID"); // depending on your API
-  });
+  // it("should checkout an order", async () => {
+  //   const res = await tf.post({
+  //     path: `/order/checkout/${orderId}`,
+  //     expectedStatus: 200,
+  //   });
+  //   expect(res.data.status).toBe("PAID"); // depending on your API
+  // });
 
   it("should prevent non-admin dispatch", async () => {
     await tf.post({

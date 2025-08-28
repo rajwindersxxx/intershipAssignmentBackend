@@ -1,3 +1,4 @@
+import { describe, expect, it } from "vitest";
 import { deepStrip } from "../../../src/utils/utils";
 
 describe('deepStrip', () => {

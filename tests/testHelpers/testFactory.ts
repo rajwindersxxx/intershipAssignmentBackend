@@ -1,6 +1,7 @@
 import request from "supertest";
 import app from "../../src/app";
 import { endpoint } from "./utils";
+import { expect } from "vitest";
 
 const toggleLogs = process.env.LOGS === "true";
 const agent = request.agent(app);

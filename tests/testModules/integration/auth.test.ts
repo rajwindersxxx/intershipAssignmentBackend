@@ -2,6 +2,7 @@ import app from "../../../src/app";
 import request from "supertest";
 import { prisma } from "../../../src/utils/prismaClient";
 import { testCatchAsync } from "../../testHelpers/utils";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
 const authData = {
   email: "test52634564@gmail.com",
